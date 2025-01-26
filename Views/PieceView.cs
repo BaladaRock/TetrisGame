@@ -1,4 +1,5 @@
 ﻿#nullable disable
+
 namespace TetrisGame.Views;
 
 public class PieceView : Control
@@ -9,7 +10,7 @@ public class PieceView : Control
     public PieceView()
     {
         this.DoubleBuffered = true;
-        this.currentPiece = new Piece(new Point(5, 5));
+        this.currentPiece = new LinePiece(new Point(5, 5));
         this.borderStyle = BorderStyle.None;
     }
 
@@ -31,7 +32,7 @@ public class PieceView : Control
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        currentPiece.Draw(e.Graphics);
+        currentPiece.Draw(e.Graphics, 10, 5);
 
         if (borderStyle == BorderStyle.None)
         {
