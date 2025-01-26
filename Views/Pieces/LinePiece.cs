@@ -1,5 +1,6 @@
-﻿namespace TetrisGame.Views
+﻿namespace TetrisGame.Views.Pieces
 {
+    using ColoredSquare;
     public class LinePiece : Piece
     {
         public LinePiece(Point startPosition)
@@ -7,18 +8,24 @@
             SetSquares(startPosition);
         }
 
-        public override void SetSquares(Point startPosition)
+        public sealed override void SetSquares(Point startPosition)
         {
             Squares.Clear();
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                Squares.Add(new Square(new Point(startPosition.X + i, startPosition.Y), Color.Cyan));
+                Squares.Add(new ColoredSquare(new Point(startPosition.X + i, startPosition.Y), Color.Cyan));
             }
         }
 
         public override void Rotate()
         {
-            // Rotate logic for the line piece
+            var origin = Squares[0].Position;
+            foreach (var square in Squares)
+            {
+                var x = square.Position.X - origin.X;
+                var y = square.Position.Y - origin.Y;
+                square.Position = new Point(origin.X - y, origin.Y + x);
+            }
         }
     }
 }

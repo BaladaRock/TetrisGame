@@ -1,4 +1,4 @@
-﻿using TetrisGame.Views;
+﻿using TetrisGame.Views.Pieces;
 
 namespace TetrisGame
 {
@@ -6,11 +6,8 @@ namespace TetrisGame
     {
         private System.ComponentModel.IContainer components = null;
         private PieceView pieceView;
+        private readonly Size gameAreaSize = new Size(280, 580); // The fixed dimensions of the game area
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,12 +17,6 @@ namespace TetrisGame
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.pieceView = new PieceView();
@@ -34,24 +25,55 @@ namespace TetrisGame
             // 
             // pieceView
             // 
-            this.pieceView.Location = new Point(10, 10);
-            this.pieceView.Size = new Size(280, 580);
-            this.pieceView.BackColor = Color.White;
-            this.pieceView.BorderStyle = BorderStyle.Fixed3D;
+            this.pieceView.Size = new Size(275, 40); // The size of the piece
+
             // 
             // GameView
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(300, 600);
+            this.ClientSize = new Size(900, 600); // The initial size of the window
             this.Controls.Add(this.pieceView);
-            this.BackColor = Color.Gray;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.Name = "TetrisGame";
             this.Text = "Tetris";
+
+            this.Resize += GameView_Resize;
+
             this.ResumeLayout(false);
+            CenterGameView();
         }
 
-        #endregion
+        private void GameView_Resize(object sender, EventArgs e)
+        {
+            CenterGameView();
+            Invalidate();
+        }
+
+        private void CenterGameView()
+        {
+            var gameAreaX = (this.ClientSize.Width - gameAreaSize.Width) / 2;
+            var gameAreaY = (this.ClientSize.Height - gameAreaSize.Height) / 2;
+
+            var pieceX = gameAreaX + (gameAreaSize.Width - pieceView.Width) / 2;
+            var pieceY = gameAreaY + 1; // Adjust the Y position to move the piece down
+
+            pieceView.Location = new Point(pieceX, pieceY);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            e.Graphics.FillRectangle(Brushes.AntiqueWhite, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
+
+            var gameAreaX = (this.ClientSize.Width - gameAreaSize.Width) / 2;
+            var gameAreaY = (this.ClientSize.Height - gameAreaSize.Height) / 2;
+
+            // Draw the black background for the game area
+            e.Graphics.FillRectangle(Brushes.Black, gameAreaX, gameAreaY, gameAreaSize.Width, gameAreaSize.Height);
+            // Draw the black border for the game area
+            e.Graphics.DrawRectangle(Pens.Black, gameAreaX, gameAreaY, gameAreaSize.Width, gameAreaSize.Height);
+        }
     }
 }
