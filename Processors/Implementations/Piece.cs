@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TetrisGame.Processors.Contracts;
 
-namespace TetrisGame.Processors
+namespace TetrisGame.Processors.Implementations
 {
-    internal class Piece : IPiece
+    internal abstract class Piece : IPiece
     {
         public void MoveLeft()
         {
@@ -24,6 +25,11 @@ namespace TetrisGame.Processors
         }
 
         public void MoveDown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Square> GetSquares()
         {
             throw new NotImplementedException();
         }

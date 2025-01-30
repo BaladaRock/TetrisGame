@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TetrisGame.Processors
+namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece
     {

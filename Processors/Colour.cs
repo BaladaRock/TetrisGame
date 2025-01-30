@@ -1,6 +1,6 @@
 ﻿namespace TetrisGame.Processors;
 
-internal enum Colour
+public enum Colour
 {
     Red,
     Green,

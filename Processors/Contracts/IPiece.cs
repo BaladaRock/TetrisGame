@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TetrisGame.Processors.Implementations;
 
-namespace TetrisGame.Processors
+namespace TetrisGame.Processors.Contracts
 {
     internal interface IPiece
     {
