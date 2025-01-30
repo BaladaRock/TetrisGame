@@ -33,5 +33,12 @@ namespace TetrisGame.Processors.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public void SetSquares()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected abstract void Rotate();
     }
 }

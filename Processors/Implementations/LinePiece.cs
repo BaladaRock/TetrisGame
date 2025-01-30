@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TetrisGame.Processors.Implementations
 {
-    internal class LinePiece
+    internal class LinePiece : Piece
     {
+        protected override void Rotate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
