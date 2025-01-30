@@ -5,6 +5,7 @@ namespace TetrisGame
         public GameView()
         {
             InitializeComponent();
+            AdjustPieceView();
         }
     }
 }

@@ -6,7 +6,8 @@ namespace TetrisGame
     {
         private System.ComponentModel.IContainer components = null;
         private PieceView pieceView;
-        private readonly Size gameAreaSize = new Size(280, 580); // The fixed dimensions of the game area
+        private readonly Size gameAreaSize = new Size(280, 580); // Fixed game area size
+        private const int blockSize = 30; // Size of a single block
 
         protected override void Dispose(bool disposing)
         {
@@ -25,7 +26,6 @@ namespace TetrisGame
             // 
             // pieceView
             // 
-            this.pieceView.Size = new Size(275, 40); // The size of the piece
 
             // 
             // GameView
@@ -47,24 +47,46 @@ namespace TetrisGame
         private void GameView_Resize(object sender, EventArgs e)
         {
             CenterGameView();
+            AdjustPieceView();
             Invalidate();
+        }
+
+        private void AdjustPieceView()
+        {
+            // Calculate the width of PieceView to match the width of the game area
+            int pieceViewWidth = gameAreaSize.Width;
+
+            // Set PieceView height based on a row of blocks
+            int pieceViewHeight = blockSize;
+
+            // Update size of PieceView
+            pieceView.Size = new Size(pieceViewWidth, pieceViewHeight);
+
+            // Calculate PieceView position inside the game area
+            var gameAreaX = (this.ClientSize.Width - gameAreaSize.Width) / 2;
+            var gameAreaY = (this.ClientSize.Height - gameAreaSize.Height) / 2;
+
+            int pieceX = gameAreaX;
+            int pieceY = gameAreaY;
+
+            // Update PieceView location
+            pieceView.Location = new Point(pieceX, pieceY);
         }
 
         private void CenterGameView()
         {
+            // Adjust the position of the game area to be centered
             var gameAreaX = (this.ClientSize.Width - gameAreaSize.Width) / 2;
             var gameAreaY = (this.ClientSize.Height - gameAreaSize.Height) / 2;
 
-            var pieceX = gameAreaX + (gameAreaSize.Width - pieceView.Width) / 2;
-            var pieceY = gameAreaY + 1; // Adjust the Y position to move the piece down
-
-            pieceView.Location = new Point(pieceX, pieceY);
+            pieceView.Location = new Point(gameAreaX, gameAreaY); // Place PieceView relative to game area
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
+            // Fill background with a neutral color
             e.Graphics.FillRectangle(Brushes.AntiqueWhite, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
 
             var gameAreaX = (this.ClientSize.Width - gameAreaSize.Width) / 2;
@@ -72,7 +94,8 @@ namespace TetrisGame
 
             // Draw the black background for the game area
             e.Graphics.FillRectangle(Brushes.Black, gameAreaX, gameAreaY, gameAreaSize.Width, gameAreaSize.Height);
-            // Draw the black border for the game area
+
+            // Draw the border for the game area
             e.Graphics.DrawRectangle(Pens.Black, gameAreaX, gameAreaY, gameAreaSize.Width, gameAreaSize.Height);
         }
     }

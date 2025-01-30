@@ -9,7 +9,7 @@
             DoubleBuffered = true;
             BackColor = Color.Black;
             _currentPiece = new LinePiece(new Point(3, 0)); // Create the piece
-            Size = new Size(80, 10);
+            Size = new Size(70, 10);
         }
 
         protected override void OnPaint(PaintEventArgs e)
