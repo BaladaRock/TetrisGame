@@ -13,7 +13,7 @@
             Squares.Clear();
             for (var i = 0; i < 4; i++)
             {
-                Squares.Add(new ColoredSquare(new Point(startPosition.X + i, startPosition.Y), Color.Cyan));
+                Squares.Add(new ColouredSquare(new Point(startPosition.X + i, startPosition.Y), Color.Cyan));
             }
         }
 

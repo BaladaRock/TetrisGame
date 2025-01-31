@@ -10,8 +10,8 @@ namespace TetrisGame.Views
         private const int GridHeight = 20;
         private const int BlockSize = 30;
         private const int PaddingSize = 40; // Padding to separate the game area from the window edges
-        private readonly Size _gameAreaSize = new(GridWidth * BlockSize, GridHeight * BlockSize);
         private const byte PieceSize = 4;
+        private readonly Size _gameAreaSize = new(GridWidth * BlockSize, GridHeight * BlockSize);
         private PieceView _pieceView;
 
         public GameView()
@@ -26,7 +26,7 @@ namespace TetrisGame.Views
             this.Resize += OnResize!;
             this.KeyPreview = true;
 
-            _pieceView = new PieceView();
+            _pieceView = new PieceView(PieceSize);
             Controls.Add(_pieceView);
             PositionPieceView();
         }
@@ -38,15 +38,15 @@ namespace TetrisGame.Views
 
         private void OnResize(object sender, EventArgs e)
         {
-            Invalidate();
             PositionPieceView();
+            Invalidate();
         }
 
-        protected override void OnActivated(EventArgs e)
-        {
-            base.OnActivated(e);
-            this.Focus();
-        }
+        //protected override void OnActivated(EventArgs e)
+        //{
+        //    base.OnActivated(e);
+        //    this.Focus();
+        //}
 
         private void RenderGameArea(Graphics graphics)
         {
@@ -66,7 +66,7 @@ namespace TetrisGame.Views
                 _gameAreaSize.Width - 1,
                 _gameAreaSize.Height - PaddingSize - 1);
 
-            PositionPieceView();
+            //_pieceView.RenderSquares(graphics);
             //_pieceView = new PieceView();
             //_pieceView.Location = new Point(gameAreaX, gameAreaY);
         }
@@ -74,10 +74,11 @@ namespace TetrisGame.Views
         private void PositionPieceView()
         {
             var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
-            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height) / 2;
+            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height - GridHeight) / 2;
 
-            _pieceView.Location = new Point(gameAreaX, gameAreaY);
-            _pieceView.Size = new Size(_gameAreaSize.Width, BlockSize * 2);
+            _pieceView.Location = new Point(
+                gameAreaX + (BlockSize * PieceSize) - BlockSize,
+                gameAreaY + BlockSize);
         }
 
     }

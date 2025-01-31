@@ -1,13 +1,22 @@
-﻿namespace TetrisGame.Views.Pieces;
+﻿using System.Drawing;
 
-public sealed class SquareView(Point position, Color color)
+namespace TetrisGame.Views.Pieces
 {
-    private const int BlockSize = 30;
-
-    public void Fill(Graphics graphics)
+    public class SquareView(Point position, Color color)
     {
-        using var brush = new SolidBrush(color);
-        graphics.FillRectangle(brush, position.X * BlockSize, position.Y * BlockSize, BlockSize, BlockSize);
-        graphics.DrawRectangle(Pens.Black, position.X * BlockSize, position.Y * BlockSize, BlockSize, BlockSize);
+        private const int BlockSize = 30;
+        public Point Position { get; } = position;
+        public Color Color { get; } = color;
+
+        public void Draw(Graphics graphics, int spacing)
+        {
+            var x = Position.X * (BlockSize + spacing);
+            var y = Position.Y * (BlockSize + spacing);
+            var rect = new Rectangle(x, y, BlockSize, BlockSize);
+
+            using var brush = new SolidBrush(Color);
+            graphics.FillRectangle(brush, rect);
+            graphics.DrawRectangle(Pens.Black, rect);
+        }
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace TetrisGame.Views.ColoredSquare
 {
-    public class ColoredSquare
+    public class ColouredSquare
     {
         public Point Position { get; set; }
         public Color Color { get; set; }
 
-        public ColoredSquare(Point position, Color color)
+        public ColouredSquare(Point position, Color color)
         {
             Position = position;
             Color = color;

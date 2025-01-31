@@ -3,7 +3,7 @@
     using ColoredSquare;
     public abstract class Piece
     {
-        public List<ColoredSquare> Squares { get; set; }
+        public List<ColouredSquare> Squares { get; set; }
         public Color Color { get; set; }
 
         protected Piece()

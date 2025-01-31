@@ -25,7 +25,7 @@ namespace TetrisGame.Controllers
             _pieceView = pieceView;
             _currentPiece = new LinePiece();
             _gameView.KeyDown += OnKeyDown!;
-            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
             _gameTimer = new Timer { Interval = 500 };
             _gameTimer.Tick += (sender, args) => MoveDown();
             _gameTimer.Start();
@@ -45,13 +45,13 @@ namespace TetrisGame.Controllers
                     MoveDown();
                     break;
             }
-            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
         }
 
         private void MoveDown()
         {
             _currentPiece.MoveDown();
-            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
         }
     }
 }
