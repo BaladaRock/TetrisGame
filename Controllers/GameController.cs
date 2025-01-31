@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using TetrisGame.Views;
 using TetrisGame.Processors.Implementations;
+using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
 
 namespace TetrisGame.Controllers
@@ -13,28 +14,24 @@ namespace TetrisGame.Controllers
     {
         private readonly Processors.Implementations.TetrisGame _game;
         private readonly GameView _gameView;
+        private readonly PieceView _pieceView;
         private LinePiece _currentPiece;
-        private Timer? _gameTimer;
+        private readonly Timer _gameTimer;
 
-        public GameController(GameView gameView)
+        public GameController(GameView gameView, PieceView pieceView)
         {
             _game = new Processors.Implementations.TetrisGame(20);
             _gameView = gameView;
+            _pieceView = pieceView;
             _currentPiece = new LinePiece();
-            _gameView.KeyDown += OnKeyDown;
-            _gameView.RenderGame(_game.GetLines());
-            StartGameLoop();
-        }
-
-        private void StartGameLoop()
-        {
+            _gameView.KeyDown += OnKeyDown!;
+            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
             _gameTimer = new Timer { Interval = 500 };
             _gameTimer.Tick += (sender, args) => MoveDown();
-
             _gameTimer.Start();
         }
 
-        private void OnKeyDown(object? sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -47,17 +44,14 @@ namespace TetrisGame.Controllers
                 case Keys.Down:
                     MoveDown();
                     break;
-                default:
-                    _currentPiece.SetSquares();
-                    break;
             }
-            _gameView.RenderGame(_game.GetLines());
+            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
         }
 
         private void MoveDown()
         {
             _currentPiece.MoveDown();
-            _gameView.RenderGame(_game.GetLines());
+            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
         }
     }
 }

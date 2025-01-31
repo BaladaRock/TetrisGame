@@ -1,9 +1,9 @@
 ﻿namespace TetrisGame.Views.Pieces
 {
     using ColoredSquare;
-    public class LinePiece : Piece
+    public class LinePieceView : Piece
     {
-        public LinePiece(Point startPosition)
+        public LinePieceView(Point startPosition)
         {
             SetSquares(startPosition);
         }

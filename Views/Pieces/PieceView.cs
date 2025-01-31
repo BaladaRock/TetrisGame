@@ -1,27 +1,39 @@
-﻿namespace TetrisGame.Views.Pieces
+﻿using TetrisGame.Processors;
+
+namespace TetrisGame.Views.Pieces
 {
     public sealed class PieceView : Control
     {
-        private Piece _currentPiece;
+        private readonly List<SquareView> _squares;
+        private const int BlockSize = 30;
 
         public PieceView()
         {
-            DoubleBuffered = true;
-            BackColor = Color.Black;
-            _currentPiece = new LinePiece(new Point(3, 0)); // Create the piece
-            Size = new Size(70, 10);
+            _squares = [];
+            this.Size = new Size(BlockSize * 10, BlockSize * 20);
+            this.BackColor = Color.Red;
+            this.DoubleBuffered = true;
+        }
+
+        public void SetSquares(IEnumerable<Position> positions, Color color)
+        {
+            _squares.Clear();
+            foreach (var pos in positions)
+            {
+                var square = new SquareView(new Point(pos.X, pos.Y), color);
+                _squares.Add(square);
+            }
+            Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            _currentPiece.Draw(e.Graphics); // Draw the piece
-        }
-
-        public void UpdatePiece(Piece newPiece)
-        {
-            _currentPiece = newPiece;
-            Invalidate();
+            foreach (var square in _squares)
+            {
+                square.Fill(e.Graphics);
+            }
         }
     }
+
 }

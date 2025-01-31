@@ -17,7 +17,7 @@ namespace TetrisGame.Processors.Contracts
         
         void MoveDown();
         
-        IEnumerable<Square> GetSquares();
+        IEnumerable<Position> GetSquarePositions();
         
         void SetSquares();
         

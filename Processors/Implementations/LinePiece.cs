@@ -8,6 +8,11 @@ namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
+        protected override void DefineShape()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Rotate()
         {
             throw new NotImplementedException();

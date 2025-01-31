@@ -21,8 +21,7 @@ public class Square(Position position) : ISquare
 
     public Position GetPosition()
     {
-        var coordinates = position.GetCoordinates();
-        return new Position(coordinates.x, coordinates.y);
+        return position;
     }
 
     public Colour Colour { get; set; }

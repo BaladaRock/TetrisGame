@@ -26,8 +26,8 @@ namespace TetrisGame.Processors.Implementations
 
         public void RefreshSquare(byte positionToRefresh)
         {
-            squares.First(square => square.GetPosition().GetCoordinates().x == positionToRefresh)
-                .EmptyFromColour();
+            squares.FirstOrDefault(square => square.GetPosition().X == positionToRefresh)
+                ?.EmptyFromColour();
         }
     }
 }

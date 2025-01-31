@@ -1,3 +1,5 @@
+using TetrisGame.Views;
+
 namespace TetrisGame
 {
     internal static class Program

@@ -2,8 +2,7 @@
 
 public readonly struct Position(byte x, byte y)
 {
-    public (byte x, byte y) GetCoordinates()
-    {
-        return (x: x, y: y);
-    }
+    public byte X => x;
+
+    public byte Y => y;
 }
