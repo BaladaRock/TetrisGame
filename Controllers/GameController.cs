@@ -1,4 +1,5 @@
-﻿using TetrisGame.Views;
+﻿using System.Diagnostics;
+using TetrisGame.Views;
 using TetrisGame.Processors.Implementations;
 using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
@@ -23,7 +24,9 @@ namespace TetrisGame.Controllers
             _currentPiece = new LinePiece();
             _gameView.KeyDown += OnKeyDown!;
             _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
-            
+
+            _gameView.Activated += (sender, e) => _gameView.Focus();
+
             _gameTimer = gameTimer;
             _gameTimer.Tick += (sender, args) => MoveDown();
             _gameTimer.Start();
@@ -31,15 +34,17 @@ namespace TetrisGame.Controllers
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            Debug.WriteLine($"Key Pressed: {e.KeyCode}");
+            
             switch (e.KeyCode)
             {
-                case Keys.Left:
+                case Keys.A:
                     _currentPiece.MoveLeft();
                     break;
-                case Keys.Right:
+                case Keys.D:
                     _currentPiece.MoveRight();
                     break;
-                case Keys.Down:
+                case Keys.S:
                     MoveDown();
                     break;
             }
