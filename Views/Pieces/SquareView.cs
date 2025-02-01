@@ -1,22 +1,21 @@
-﻿using System.Drawing;
+﻿using TetrisGame.Views.Utils;
 
 namespace TetrisGame.Views.Pieces
 {
-    public class SquareView(Point position, Color colour)
+    public class SquareView(Point position, Color color)
     {
-        private const int BlockSize = 29;
-        public Point Position { get; } = position;
-        public Color Color { get; } = colour;
+        private const int SquareSize = GameConstants.BlockSize - 1; // Adjust to leave space for black lines
 
-        public void Draw(Graphics graphics, int spacing)
+        public Point Position { get; } = position;
+        public Color Color { get; } = color;
+
+        public void Draw(Graphics graphics)
         {
-            var x = Position.X * (BlockSize + spacing);
-            var y = Position.Y * (BlockSize + spacing);
-            var rect = new Rectangle(x, y, BlockSize, BlockSize);
+            var rect = new Rectangle(Position.X, Position.Y, SquareSize, SquareSize);
 
             using var brush = new SolidBrush(Color);
             graphics.FillRectangle(brush, rect);
-            graphics.DrawRectangle(Pens.Black, rect);
+            graphics.DrawRectangle(Pens.Black, rect); // Ensures the border is visible
         }
     }
 }

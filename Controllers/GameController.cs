@@ -17,48 +17,41 @@ namespace TetrisGame.Controllers
 
         public GameController(GameView gameView, Game tetrisGame, Timer gameTimer)
         {
-            // Set up the models
+            // Set up the model
             _game = tetrisGame;
             _currentPiece = _game.GetActivePiece();
-            var middleX = (10 / 2) - (_currentPiece.GetSquares().Count() / 2);
-            // For a 10x20 grid --- TO DO generic
+
+            // Center the piece at the top of the grid
+            var gridWidth = _game.Size / 2;
+            var middleX = (gridWidth - 4) / 2;
             _currentPiece.SetPosition(new Position(middleX, 0));
             _currentPiece.UpdateSquares();
-            
-            
+
             // Set up the views
             _gameView = gameView;
-            _pieceView = new PieceView(4);
+            _pieceView = new PieceView();
             _gameView.SetPieceView(_pieceView);
-            _gameView.PositionPieceView(_currentPiece.GetSquarePositions().First());
-            _pieceView.SetSquares(
-                _currentPiece.GetSquarePositions(),
-                Helpers.ColourMapper.ToColor(_currentPiece.Colour)
-            );
+
+            UpdatePieceView();
+
             _gameView.KeyDown += OnKeyDown!;
             _gameView.Activated += (sender, e) => _gameView.Focus();
             _gameTimer = gameTimer;
-            //_gameTimer.Tick += (sender, args) => MoveDown();
+            _gameTimer.Tick += (sender, args) => MoveDown();
             _gameTimer.Start();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            Debug.WriteLine($"Key Pressed: {e.KeyCode}");
-            
             switch (e.KeyCode)
             {
-                case Keys.A:
-                    _currentPiece.MoveLeft();
+                case Keys.A: _currentPiece.MoveLeft();
                     break;
-                case Keys.D:
-                    _currentPiece.MoveRight();
+                case Keys.D: _currentPiece.MoveRight();
                     break;
-                case Keys.S:
-                    _currentPiece.MoveDown();
+                case Keys.S: MoveDown();
                     break;
-                case Keys.W:
-                    _currentPiece.MoveUp();
+                case Keys.W: _currentPiece.MoveUp();
                     break;
             }
             UpdatePieceView();
@@ -72,8 +65,8 @@ namespace TetrisGame.Controllers
 
         private void UpdatePieceView()
         {
-            var firstPosition = _currentPiece.GetSquarePositions().FirstOrDefault();
-            _gameView.PositionPieceView(firstPosition);
+            var positions = _currentPiece.GetSquarePositions().ToList();
+            _pieceView.SetSquares(positions, Helpers.ColourMapper.ToColor(_currentPiece.Colour));
         }
     }
 }

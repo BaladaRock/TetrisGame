@@ -1,85 +1,65 @@
-using System.Drawing;
-using TetrisGame.Controllers;
-using TetrisGame.Processors;
-using TetrisGame.Processors.Contracts;
 using TetrisGame.Views.Pieces;
+using TetrisGame.Views.Utils;
 
-namespace TetrisGame.Views
+namespace TetrisGame.Views;
+
+public sealed partial class GameView : Form
 {
-    public sealed partial class GameView : Form
+    private readonly Size _gameAreaSize = new(GameConstants.GridWidth * GameConstants.GridSize,
+        GameConstants.GridHeight * GameConstants.GridSize);
+
+    private PieceView? _pieceView;
+
+    public GameView()
     {
-        private const int GridWidth = 10;
-        private const int GridHeight = 20;
-        private const int BlockSize = 30;
-        private const int PaddingSize = 40; // Padding to separate the game area from the window edges
-        private const byte PieceSize = 4;
-        private readonly Size _gameAreaSize = new(GridWidth * BlockSize, GridHeight * BlockSize);
-        private PieceView _pieceView;
+        ClientSize = new Size(900, 600);
+        FormBorderStyle = FormBorderStyle.FixedSingle;
+        Text = @"Tetris";
+        DoubleBuffered = true;
+        BackColor = Color.AntiqueWhite;
 
-        public GameView()
-        {
-            this.ClientSize = new Size(900, 600);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.Text = @"Tetris";
-            this.DoubleBuffered = true;
-            this.BackColor = Color.AntiqueWhite;
+        Paint += OnPaint!;
+        Resize += OnResize!;
+        KeyPreview = true;
+    }
 
-            this.Paint += OnPaint!;
-            this.Resize += OnResize!;
-            this.KeyPreview = true;
-            
-            //this.Focus();
-        }
+    public void SetPieceView(PieceView pieceView)
+    {
+        _pieceView = pieceView;
+        _pieceView.Size = new Size(300, 600); // Ensure visibility
+        _pieceView.Location = GetGameAreaOrigin();
+        Controls.Add(_pieceView);
+        _pieceView.BringToFront();
+    }
 
-        public void SetPieceView(PieceView pieceView)
-        {
-            _pieceView = pieceView;
-            Controls.Add(_pieceView);
-            //PositionPieceView(new Position(3, 0));
-        }
+    private void OnPaint(object sender, PaintEventArgs e)
+    {
+        RenderGameArea(e.Graphics);
+    }
 
-        private void OnPaint(object sender, PaintEventArgs e)
-        {
-            RenderGameArea(e.Graphics);
-        }
+    private void OnResize(object sender, EventArgs e)
+    {
+        _pieceView!.Location = GetGameAreaOrigin();
+        Invalidate();
+    }
 
-        private void OnResize(object sender, EventArgs e)
-        {
-            PositionPieceView(new Position(3, 0));
-            Invalidate();
-        }
+    private void RenderGameArea(Graphics graphics)
+    {
+        var origin = GetGameAreaOrigin();
+        graphics.FillRectangle(
+            Brushes.Black,
+            origin.X,
+            origin.Y,
+            _gameAreaSize.Width,
+            _gameAreaSize.Height
+        );
+    }
 
-        //protected override void OnActivated(EventArgs e)
-        //{
-        //    base.OnActivated(e);
-        //    this.Focus();
-        //}
-
-        private void RenderGameArea(Graphics graphics)
-        {
-            var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
-            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height) / 2;
-
-            graphics.FillRectangle(
-                Brushes.Black,
-                gameAreaX,
-                gameAreaY,
-                _gameAreaSize.Width,
-                _gameAreaSize.Height);
-
-
-        }
-
-        public void PositionPieceView(Position position)
-        {
-            var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
-            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height) / 2;
-
-            _pieceView.Location = new Point(
-                gameAreaX + position.X * BlockSize,
-                gameAreaY + position.Y * BlockSize
-            );
-        }
-
+    private Point GetGameAreaOrigin()
+    {
+        return new Point(
+            (ClientSize.Width - _gameAreaSize.Width) / 2,
+            (ClientSize.Height - _gameAreaSize.Height) / 2
+        );
     }
 }

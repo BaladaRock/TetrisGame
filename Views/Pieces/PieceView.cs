@@ -1,31 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using TetrisGame.Processors;
+﻿using TetrisGame.Processors;
+using TetrisGame.Views.Utils;
 
 namespace TetrisGame.Views.Pieces
 {
     public sealed class PieceView : Control
     {
         private readonly List<SquareView> _squares;
-        private const int BlockSize = 29;
-        private const int BlockSpacing = 1;
 
-        public PieceView(byte numberOfSquares)
+        public PieceView()
         {
-            _squares = new List<SquareView>(numberOfSquares);
+            _squares = [];
             DoubleBuffered = true;
-            Size = new Size(4 * (BlockSize + BlockSpacing), BlockSize);
-            BackColor = Color.Black;
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
 
         public void SetSquares(IEnumerable<Position> positions, Color color)
         {
             _squares.Clear();
+
             foreach (var pos in positions)
             {
-                _squares.Add(new SquareView(new Point(pos.X, pos.Y), color));
+                var screenX = pos.X * (GameConstants.BlockSize + GameConstants.BlockSpacing);
+                var screenY = pos.Y * (GameConstants.BlockSize + GameConstants.BlockSpacing);
+                _squares.Add(new SquareView(new Point(screenX, screenY), color));
             }
+
             Invalidate();
         }
 
@@ -34,7 +34,7 @@ namespace TetrisGame.Views.Pieces
             base.OnPaint(e);
             foreach (var square in _squares)
             {
-                square.Draw(e.Graphics, BlockSpacing);
+                square.Draw(e.Graphics);
             }
         }
     }
