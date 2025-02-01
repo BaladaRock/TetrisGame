@@ -1,4 +1,8 @@
+using TetrisGame.Controllers;
+using TetrisGame.Processors.Implementations;
 using TetrisGame.Views;
+using TetrisGame.Views.Pieces;
+using Timer = System.Windows.Forms.Timer;
 
 namespace TetrisGame
 {
@@ -10,10 +14,17 @@ namespace TetrisGame
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new GameView());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Initialize the MVC components
+            var gameView = new GameView();
+            var gameModel = new Game(20);
+            var gameTimer = new Timer { Interval = 500 };
+            var gameController = new GameController(gameView, gameModel, gameTimer);
+
+            // Run the application
+            Application.Run(gameView);
         }
     }
 }

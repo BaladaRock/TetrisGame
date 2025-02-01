@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using TetrisGame.Views;
+﻿using TetrisGame.Views;
 using TetrisGame.Processors.Implementations;
 using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
@@ -12,21 +7,24 @@ namespace TetrisGame.Controllers
 {
     public class GameController
     {
-        private readonly Processors.Implementations.TetrisGame _game;
+        private readonly Game _game;
         private readonly GameView _gameView;
         private readonly PieceView _pieceView;
         private LinePiece _currentPiece;
-        private readonly Timer _gameTimer;
+        private Timer _gameTimer;
 
-        public GameController(GameView gameView, PieceView pieceView)
+        public GameController(GameView gameView, Game tetrisGame, Timer gameTimer)
         {
-            _game = new Processors.Implementations.TetrisGame(20);
             _gameView = gameView;
-            _pieceView = pieceView;
+            _game = tetrisGame;
+            _pieceView = new PieceView(4);
+            _gameView.SetPieceView(_pieceView);
+            
             _currentPiece = new LinePiece();
             _gameView.KeyDown += OnKeyDown!;
-            //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
-            _gameTimer = new Timer { Interval = 500 };
+            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            
+            _gameTimer = gameTimer;
             _gameTimer.Tick += (sender, args) => MoveDown();
             _gameTimer.Start();
         }
@@ -45,12 +43,19 @@ namespace TetrisGame.Controllers
                     MoveDown();
                     break;
             }
-            //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            UpdatePieceView();
         }
 
         private void MoveDown()
         {
             _currentPiece.MoveDown();
+            UpdatePieceView();
+        }
+
+        private void UpdatePieceView()
+        {
+            var firstPosition = _currentPiece.GetSquarePositions().FirstOrDefault();
+            _gameView.PositionPieceView(firstPosition);
             //_pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
         }
     }

@@ -1,48 +1,42 @@
-﻿namespace TetrisGame.Views.Pieces;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using TetrisGame.Processors;
 
-public sealed class PieceView : Control
+namespace TetrisGame.Views.Pieces
 {
-    private readonly List<SquareView> _squares;
-    private const int BlockSize = 30;
-    private const int BlockSpacing = 2;
-    private readonly Color _defaultColor = Color.Cyan;
-
-    public PieceView(byte numberOfSquares)
+    public sealed class PieceView : Control
     {
-        _squares = new List<SquareView>(numberOfSquares);
-        DoubleBuffered = true;
-        Size = new Size(4 * (BlockSize + BlockSpacing), BlockSize);
-        BackColor = Color.Black;
+        private readonly List<SquareView> _squares;
+        private const int BlockSize = 30;
+        private const int BlockSpacing = 2;
+        private readonly Color _defaultColor = Color.Cyan;
 
-        InitializeSquares();
-    }
-
-    private void InitializeSquares()
-    {
-        _squares.Clear();
-        for (var i = 0; i < 4; i++)
+        public PieceView(byte numberOfSquares)
         {
-            var pos = new Point(i, 0);
-            _squares.Add(new SquareView(pos, _defaultColor));
+            _squares = new List<SquareView>(numberOfSquares);
+            DoubleBuffered = true;
+            Size = new Size(4 * (BlockSize + BlockSpacing), BlockSize);
+            BackColor = Color.Black;
         }
 
-        Invalidate();
-    }
-
-    public void SetSquares(IEnumerable<Point> positions, Color color)
-    {
-        _squares.Clear();
-        foreach (var pos in positions) _squares.Add(new SquareView(pos, color));
-
-        Invalidate();
-    }
-
-    protected override void OnPaint(PaintEventArgs e)
-    {
-        base.OnPaint(e);
-        foreach (var square in _squares)
+        public void SetSquares(IEnumerable<Position> positions, Color color)
         {
-            square.Draw(e.Graphics, BlockSpacing);
+            _squares.Clear();
+            foreach (var pos in positions)
+            {
+                _squares.Add(new SquareView(new Point(pos.X, pos.Y), color));
+            }
+            Invalidate();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            foreach (var square in _squares)
+            {
+                square.Draw(e.Graphics, BlockSpacing);
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
 using System.Drawing;
+using TetrisGame.Controllers;
+using TetrisGame.Processors;
 using TetrisGame.Processors.Contracts;
 using TetrisGame.Views.Pieces;
 
@@ -25,10 +27,15 @@ namespace TetrisGame.Views
             this.Paint += OnPaint!;
             this.Resize += OnResize!;
             this.KeyPreview = true;
+            
+            //this.Focus();
+        }
 
-            _pieceView = new PieceView(PieceSize);
+        public void SetPieceView(PieceView pieceView)
+        {
+            _pieceView = pieceView;
             Controls.Add(_pieceView);
-            PositionPieceView();
+            PositionPieceView(new Position(3, 0));
         }
 
         private void OnPaint(object sender, PaintEventArgs e)
@@ -38,7 +45,7 @@ namespace TetrisGame.Views
 
         private void OnResize(object sender, EventArgs e)
         {
-            PositionPieceView();
+            PositionPieceView(new Position(3, 0));
             Invalidate();
         }
 
@@ -71,14 +78,12 @@ namespace TetrisGame.Views
             //_pieceView.Location = new Point(gameAreaX, gameAreaY);
         }
 
-        private void PositionPieceView()
+        public void PositionPieceView(Position position)
         {
-            var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
-            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height - GridHeight) / 2;
-
             _pieceView.Location = new Point(
-                gameAreaX + (BlockSize * PieceSize) - BlockSize,
-                gameAreaY + BlockSize);
+                (ClientSize.Width - (GridWidth * BlockSize)) / 2 + position.X * BlockSize,
+                (ClientSize.Height - (GridHeight * BlockSize)) / 2 + position.Y * BlockSize + GridHeight
+            );
         }
 
     }

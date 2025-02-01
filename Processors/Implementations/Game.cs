@@ -7,12 +7,12 @@ using TetrisGame.Processors.Contracts;
 
 namespace TetrisGame.Processors.Implementations
 {
-    public class TetrisGame : ITetris
+    public class Game : ITetris
     {
         private readonly Square[,] _squares;
         private readonly List<Line> _lines;
 
-        public TetrisGame(byte size)
+        public Game(byte size)
         {
             Size = size;
             _squares = new Square[Size, Size];

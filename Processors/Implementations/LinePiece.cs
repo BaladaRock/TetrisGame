@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using TetrisGame.Processors.Contracts;
 
 namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
-        protected override void DefineShape()
+        public LinePiece()
         {
-            throw new NotImplementedException();
+            DefineShape();
+        }
+
+        protected sealed override void DefineShape()
+        {
+            Squares.Clear();
+            for (var i = 0; i < 4; i++)
+            {
+                Squares.Add(new Square(new Position((byte)(Position.X + i), Position.Y)));
+            }
         }
 
         protected override void Rotate()
         {
-            throw new NotImplementedException();
+            // To be done
         }
     }
 }
