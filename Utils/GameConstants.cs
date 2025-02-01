@@ -1,4 +1,4 @@
-﻿namespace TetrisGame.Views.Utils
+﻿namespace TetrisGame.Utils
 {
     public static class GameConstants
     {
@@ -10,7 +10,7 @@
         public const int GridWidth = 10;  // Number of columns
         public const int GridHeight = 20; // Number of rows
         public const int GridSize = 30;
-        
+
         // Piece settings
         public const int PieceWidth = 4;  // Default width of a piece
 

@@ -1,5 +1,5 @@
+using TetrisGame.Utils;
 using TetrisGame.Views.Pieces;
-using TetrisGame.Views.Utils;
 
 namespace TetrisGame.Views;
 

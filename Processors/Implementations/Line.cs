@@ -1,33 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TetrisGame.Processors.Contracts;
+using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Implementations
 {
-    internal class Line(int position, IEnumerable<Square> squares) : ILine
+    internal class Line : ILine
     {
-        public int GetPosition()
+        private int _position;
+        private readonly List<Square> _squares;
+
+        public Line(int position, IEnumerable<Square> squares)
         {
-            return position;
+            _position = position;
+            _squares = squares.ToList();
         }
 
-        public IEnumerable<Square> GetSquares()
+        public int GetPosition() => _position;
+
+        public IEnumerable<Square> GetSquares() => _squares;
+       
+
+        public void RefreshSquare(int position)
         {
-            return squares;
+            throw new NotImplementedException();
         }
 
-        public void EmptyLine()
+        public void AddSquare(Square square)
         {
-            squares.ToList().ForEach(square => square.EmptyFromColour());
+            if (!_squares.Contains(square))
+            {
+                _squares.Add(square);
+            }
         }
 
-        public void RefreshSquare(byte positionToRefresh)
+        public bool IsFull()
         {
-            squares.FirstOrDefault(square => square.GetPosition().X == positionToRefresh)
-                ?.EmptyFromColour();
+            return _squares.Count == GameConstants.GridWidth;
+        }
+
+        public void ClearLine()
+        {
+            _squares.Clear();
         }
     }
 }

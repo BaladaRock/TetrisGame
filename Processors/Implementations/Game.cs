@@ -7,7 +7,7 @@ using TetrisGame.Processors.Contracts;
 
 namespace TetrisGame.Processors.Implementations
 {
-    public class Game : ITetris
+    public class Game : IGame
     {
         private readonly Square[,] _squares;
         private readonly List<Line> _lines;
@@ -19,7 +19,7 @@ namespace TetrisGame.Processors.Implementations
             _squares = new Square[Size, Size];
             SetSquares();
             _activePiece = new LinePiece(Size / 2, Size);
-            
+
             _lines = new List<Line>(Size);
             SetLines();
         }
@@ -28,9 +28,9 @@ namespace TetrisGame.Processors.Implementations
 
         public void SetSquares()
         {
-            for (byte i = 0; i < Size; ++i)
+            for (byte i = 0; i < Size; i++)
             {
-                for (byte j = 0; j < Size; ++j)
+                for (byte j = 0; j < Size; j++)
                 {
                     _squares[i, j] = new Square(new Position(i, j));
                 }
@@ -39,31 +39,40 @@ namespace TetrisGame.Processors.Implementations
 
         public void SetLines()
         {
-            for (var i = 0; i < Size; ++i)
+            for (var i = 0; i < Size; i++)
             {
-                var lineSquares = new List<Square>();
-                for (var j = 0; j < Size; ++j)
-                {
-                    lineSquares.Add(_squares[i, j]);
-                }
-                var line = new Line(i, lineSquares);
-                _lines.Add(line);
+                _lines.Add(new Line(i, new List<Square>()));
             }
         }
 
-        public IEnumerable<ILine> GetLines()
+        public IEnumerable<ILine> GetLines() => _lines;
+
+        public ILine GetLine(int index) => _lines.ElementAt(index);
+
+        public void AddPieceToGrid(Piece piece)
         {
-            return _lines;
+            foreach (var square in piece.GetSquares())
+            {
+                _lines[square.GetPosition().Y].AddSquare(square);
+            }
+            
+            ClearFullLines();
         }
 
-        public ILine GetLine(int index)
+        public IEnumerable<ILine> GetFullLines()
         {
-            return _lines.ElementAt(index);
+            return _lines.Where(line => line.IsFull());
+        }
+        
+        public void ClearFullLines()
+        {
+            var fullLines = GetFullLines();
+            foreach (var line in fullLines)
+            {
+                line.ClearLine();
+            }
         }
 
-        public Piece GetActivePiece()
-        {
-            return _activePiece;
-        }
+        public Piece GetActivePiece() => _activePiece;
     }
 }

@@ -1,4 +1,4 @@
-﻿using TetrisGame.Views.Utils;
+﻿using TetrisGame.Utils;
 
 namespace TetrisGame.Views.Pieces
 {

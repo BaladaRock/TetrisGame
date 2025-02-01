@@ -12,9 +12,11 @@ namespace TetrisGame.Processors.Contracts
         int GetPosition();
         
         IEnumerable<Square> GetSquares();
+        void AddSquare(Square square);
+        void RefreshSquare(int position);
 
-        void EmptyLine();
+        void ClearLine();
+        bool IsFull();
 
-        void RefreshSquare(byte position);
     }
 }
