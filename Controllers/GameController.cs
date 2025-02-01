@@ -3,6 +3,7 @@ using TetrisGame.Views;
 using TetrisGame.Processors.Implementations;
 using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
+using TetrisGame.Processors;
 
 namespace TetrisGame.Controllers
 {
@@ -22,6 +23,8 @@ namespace TetrisGame.Controllers
             _gameView.SetPieceView(_pieceView);
             
             _currentPiece = _game.GetActivePiece();
+            _currentPiece.SetPosition(new Position(3, 0));
+            
             _gameView.KeyDown += OnKeyDown!;
             _pieceView.SetSquares(
                 _currentPiece.GetSquarePositions(),
@@ -48,9 +51,13 @@ namespace TetrisGame.Controllers
                     _currentPiece.MoveRight();
                     break;
                 case Keys.S:
-                    MoveDown();
+                    _currentPiece.MoveDown();
                     break;
-                default: MoveDown();
+                case Keys.W:
+                    _currentPiece.MoveUp();
+                    break;
+                default:
+                    _currentPiece.MoveDown();
                     break;
             }
             UpdatePieceView();

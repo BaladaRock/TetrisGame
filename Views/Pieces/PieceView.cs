@@ -10,7 +10,6 @@ namespace TetrisGame.Views.Pieces
         private readonly List<SquareView> _squares;
         private const int BlockSize = 30;
         private const int BlockSpacing = 2;
-        private readonly Color _defaultColor = Color.Cyan;
 
         public PieceView(byte numberOfSquares)
         {

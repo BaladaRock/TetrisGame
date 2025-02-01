@@ -41,7 +41,13 @@ namespace TetrisGame.Processors.Implementations
 
         public void MoveUp()
         {
-            throw new NotImplementedException();
+            if (!CanMove(0, 1))
+            {
+                return;
+            }
+
+            Position = new Position(Position.X, (byte)(Position.Y - 1));
+            UpdateSquares();
         }
 
         public void MoveDown()
@@ -51,7 +57,7 @@ namespace TetrisGame.Processors.Implementations
                 return;
             }
             
-            Position = new Position(Position.X, Position.Y);
+            Position = new Position(Position.X, (byte)(Position.Y + 1));
             UpdateSquares();
         }
 
@@ -65,7 +71,7 @@ namespace TetrisGame.Processors.Implementations
             return Squares;
         }
 
-        public Colour PieceColour
+        public virtual Colour PieceColour
         {
             get => Squares.First().Colour;
             set
@@ -97,9 +103,13 @@ namespace TetrisGame.Processors.Implementations
         {
             for (byte i = 0; i < Squares.Count; i++)
             {
-                var pos = Squares[i].GetPosition();
-                Squares[i] = new Square(new Position((byte)(pos.X + Position.X), (byte)(pos.Y + Position.Y)));
+                Squares[i] = new Square(new Position((byte)(Position.X + i), Position.Y));
             }
+        }
+
+        public void SetPosition(Position position)
+        {
+            Position = position;
         }
     }
 }

@@ -24,6 +24,8 @@ namespace TetrisGame.Processors.Contracts
         Colour PieceColour { get; set; }
         
         void SetSquares();
+
+        void SetPosition(Position newPosition);
         
     }
 }
