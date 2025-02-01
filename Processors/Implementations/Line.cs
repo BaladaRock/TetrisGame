@@ -7,9 +7,9 @@ using TetrisGame.Processors.Contracts;
 
 namespace TetrisGame.Processors.Implementations
 {
-    internal class Line(byte position, IEnumerable<Square> squares) : ILine
+    internal class Line(int position, IEnumerable<Square> squares) : ILine
     {
-        public byte GetPosition()
+        public int GetPosition()
         {
             return position;
         }

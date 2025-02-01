@@ -10,7 +10,7 @@ internal interface ISquare
 
     bool IsColoured();
 
-    Position GetPosition();
+    Position Position { get; set; }
 
     Colour Colour { get; set; }
 

@@ -21,8 +21,8 @@ namespace TetrisGame.Processors.Contracts
 
         IEnumerable<Square> GetSquares();
 
-        Colour PieceColour { get; set; }
-        
+        void ColourSquares();
+
         void SetSquares();
 
         void SetPosition(Position newPosition);

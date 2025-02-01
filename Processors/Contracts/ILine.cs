@@ -9,7 +9,7 @@ namespace TetrisGame.Processors.Contracts
 {
     public interface ILine
     {
-        byte GetPosition();
+        int GetPosition();
         
         IEnumerable<Square> GetSquares();
 

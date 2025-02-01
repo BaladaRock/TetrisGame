@@ -21,8 +21,10 @@ public class Square(Position position) : ISquare
 
     public Position GetPosition()
     {
-        return position;
+        return Position;
     }
+    
+    public Position Position { get; set; }
 
     public Colour Colour { get; set; }
 }

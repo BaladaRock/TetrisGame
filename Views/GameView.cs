@@ -35,7 +35,7 @@ namespace TetrisGame.Views
         {
             _pieceView = pieceView;
             Controls.Add(_pieceView);
-            PositionPieceView(new Position(3, 0));
+            //PositionPieceView(new Position(3, 0));
         }
 
         private void OnPaint(object sender, PaintEventArgs e)
@@ -58,31 +58,26 @@ namespace TetrisGame.Views
         private void RenderGameArea(Graphics graphics)
         {
             var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
-            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height - PaddingSize) / 2;
+            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height) / 2;
 
             graphics.FillRectangle(
                 Brushes.Black,
                 gameAreaX,
-                gameAreaY + PaddingSize,
+                gameAreaY,
                 _gameAreaSize.Width,
-                _gameAreaSize.Height - PaddingSize);
-            graphics.DrawRectangle(
-                Pens.White,
-                gameAreaX,
-                gameAreaY + PaddingSize,
-                _gameAreaSize.Width - 1,
-                _gameAreaSize.Height - PaddingSize - 1);
+                _gameAreaSize.Height);
 
-            //_pieceView.RenderSquares(graphics);
-            //_pieceView = new PieceView();
-            //_pieceView.Location = new Point(gameAreaX, gameAreaY);
+
         }
 
         public void PositionPieceView(Position position)
         {
+            var gameAreaX = (ClientSize.Width - _gameAreaSize.Width) / 2;
+            var gameAreaY = (ClientSize.Height - _gameAreaSize.Height) / 2;
+
             _pieceView.Location = new Point(
-                (ClientSize.Width - (GridWidth * BlockSize)) / 2 + position.X * BlockSize,
-                (ClientSize.Height - (GridHeight * BlockSize)) / 2 + position.Y * BlockSize + GridHeight
+                gameAreaX + position.X * BlockSize,
+                gameAreaY + position.Y * BlockSize
             );
         }
 

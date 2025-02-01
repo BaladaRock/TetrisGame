@@ -4,7 +4,7 @@ namespace TetrisGame.Views.Pieces
 {
     public class SquareView(Point position, Color colour)
     {
-        private const int BlockSize = 30;
+        private const int BlockSize = 29;
         public Point Position { get; } = position;
         public Color Color { get; } = colour;
 

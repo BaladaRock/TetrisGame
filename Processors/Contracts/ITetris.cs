@@ -2,7 +2,7 @@
 
 internal interface ITetris
 {
-    byte Size { get; set; }
+    int Size { get; set; }
     
     void SetSquares();
 
@@ -10,7 +10,7 @@ internal interface ITetris
 
     IEnumerable<ILine> GetLines();
 
-    ILine GetLine(byte index);
+    ILine GetLine(int index);
 
 
 }

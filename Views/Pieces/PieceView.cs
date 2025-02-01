@@ -8,8 +8,8 @@ namespace TetrisGame.Views.Pieces
     public sealed class PieceView : Control
     {
         private readonly List<SquareView> _squares;
-        private const int BlockSize = 30;
-        private const int BlockSpacing = 2;
+        private const int BlockSize = 29;
+        private const int BlockSpacing = 1;
 
         public PieceView(byte numberOfSquares)
         {

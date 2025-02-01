@@ -1,8 +1,8 @@
 ﻿namespace TetrisGame.Processors;
 
-public readonly struct Position(byte x, byte y)
+public readonly struct Position(int x, int y)
 {
-    public byte X => x;
+    public int X => x;
 
-    public byte Y => y;
+    public int Y => y;
 }

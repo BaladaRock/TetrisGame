@@ -7,15 +7,21 @@ namespace TetrisGame.Processors.Implementations
 {
     public abstract class Piece : IPiece
     {
+        private readonly int _gameHeight;
+        private readonly int _gameWidth;
         protected List<Square> Squares { get; set; }
         protected Position Position { get; set; }
 
-        protected Piece()
+        protected Piece(int gameWidth, int gameHeight)
         {
+            _gameWidth = gameWidth;
+            _gameHeight = gameHeight;
             Squares = [];
             Position = new Position(0, 0);
             SetSquares();
         }
+
+        protected internal Colour Colour;
 
         public void MoveLeft()
         {
@@ -41,7 +47,7 @@ namespace TetrisGame.Processors.Implementations
 
         public void MoveUp()
         {
-            if (!CanMove(0, 1))
+            if (!CanMove(0, -1))
             {
                 return;
             }
@@ -71,15 +77,11 @@ namespace TetrisGame.Processors.Implementations
             return Squares;
         }
 
-        public virtual Colour PieceColour
+        public virtual void ColourSquares()
         {
-            get => Squares.First().Colour;
-            set
+            foreach (var square in Squares)
             {
-                foreach (var square in Squares)
-                {
-                    square.FillWithColour(value);
-                }
+                square.FillWithColour(Colour);
             }
         }
 
@@ -94,18 +96,24 @@ namespace TetrisGame.Processors.Implementations
 
         private bool CanMove(int deltaX, int deltaY)
         {
-            return Squares.All(sq => sq.GetPosition().X + deltaX >= 0 &&
-                                      sq.GetPosition().X + deltaX < 10 &&
-                                      sq.GetPosition().Y + deltaY < 20);
+            return Squares.All(sq =>
+                    sq.GetPosition().X + deltaX >= 0 &&
+                    sq.GetPosition().X + deltaX < _gameWidth &&
+                    sq.GetPosition().Y + deltaY >= 0 &&  
+                    sq.GetPosition().Y + deltaY < _gameHeight
+            );
         }
 
-        private void UpdateSquares()
+        public void UpdateSquares()
         {
             for (byte i = 0; i < Squares.Count; i++)
             {
-                Squares[i] = new Square(new Position((byte)(Position.X + i), Position.Y));
+                var pos = Squares[i].GetPosition();
+                Squares[i].Position = (new Position(Position.X + i, Position.Y));
             }
+            ColourSquares();
         }
+
 
         public void SetPosition(Position position)
         {
