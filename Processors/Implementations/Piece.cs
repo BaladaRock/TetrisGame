@@ -5,7 +5,7 @@ using TetrisGame.Processors.Contracts;
 
 namespace TetrisGame.Processors.Implementations
 {
-    internal abstract class Piece : IPiece
+    public abstract class Piece : IPiece
     {
         protected List<Square> Squares { get; set; }
         protected Position Position { get; set; }
@@ -58,6 +58,23 @@ namespace TetrisGame.Processors.Implementations
         public IEnumerable<Position> GetSquarePositions()
         {
             return Squares.Select(sq => sq.GetPosition());
+        }
+
+        public IEnumerable<Square> GetSquares()
+        {
+            return Squares;
+        }
+
+        public Colour PieceColour
+        {
+            get => Squares.First().Colour;
+            set
+            {
+                foreach (var square in Squares)
+                {
+                    square.FillWithColour(value);
+                }
+            }
         }
 
         public void SetSquares()

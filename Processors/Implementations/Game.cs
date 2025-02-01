@@ -11,12 +11,15 @@ namespace TetrisGame.Processors.Implementations
     {
         private readonly Square[,] _squares;
         private readonly List<Line> _lines;
+        private Piece _activePiece;
 
         public Game(byte size)
         {
             Size = size;
             _squares = new Square[Size, Size];
             SetSquares();
+            
+            _activePiece = new LinePiece();
             _lines = new List<Line>(Size);
             SetLines();
         }
@@ -56,6 +59,11 @@ namespace TetrisGame.Processors.Implementations
         public ILine GetLine(byte index)
         {
             return _lines.ElementAt(index);
+        }
+
+        public Piece GetActivePiece()
+        {
+            return _activePiece;
         }
     }
 }

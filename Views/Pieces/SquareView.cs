@@ -2,11 +2,11 @@
 
 namespace TetrisGame.Views.Pieces
 {
-    public class SquareView(Point position, Color color)
+    public class SquareView(Point position, Color colour)
     {
         private const int BlockSize = 30;
         public Point Position { get; } = position;
-        public Color Color { get; } = color;
+        public Color Color { get; } = colour;
 
         public void Draw(Graphics graphics, int spacing)
         {

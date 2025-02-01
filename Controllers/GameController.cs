@@ -11,7 +11,7 @@ namespace TetrisGame.Controllers
         private readonly Game _game;
         private readonly GameView _gameView;
         private readonly PieceView _pieceView;
-        private LinePiece _currentPiece;
+        private Piece _currentPiece;
         private Timer _gameTimer;
 
         public GameController(GameView gameView, Game tetrisGame, Timer gameTimer)
@@ -21,9 +21,12 @@ namespace TetrisGame.Controllers
             _pieceView = new PieceView(4);
             _gameView.SetPieceView(_pieceView);
             
-            _currentPiece = new LinePiece();
+            _currentPiece = _game.GetActivePiece();
             _gameView.KeyDown += OnKeyDown!;
-            _pieceView.SetSquares(_currentPiece.GetSquarePositions(), Color.Cyan);
+            _pieceView.SetSquares(
+                _currentPiece.GetSquarePositions(),
+                Helpers.ColourMapper.ToColor(_currentPiece.PieceColour)
+            );
 
             _gameView.Activated += (sender, e) => _gameView.Focus();
 
@@ -46,6 +49,8 @@ namespace TetrisGame.Controllers
                     break;
                 case Keys.S:
                     MoveDown();
+                    break;
+                default: MoveDown();
                     break;
             }
             UpdatePieceView();

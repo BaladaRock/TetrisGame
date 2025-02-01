@@ -2,7 +2,7 @@
 
 namespace TetrisGame.Helpers
 {
-    public static class ColorMapper
+    public static class ColourMapper
     {
         public static Color ToColor(Colour colour)
         {

@@ -18,6 +18,10 @@ namespace TetrisGame.Processors.Contracts
         void MoveDown();
         
         IEnumerable<Position> GetSquarePositions();
+
+        IEnumerable<Square> GetSquares();
+
+        Colour PieceColour { get; set; }
         
         void SetSquares();
         
