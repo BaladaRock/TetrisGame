@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using TetrisGame.Views.Pieces;
-using TetrisGame.Processors.Implementations;
 using TetrisGame.Utils;
 using TetrisGame.Processors;
 using System.Diagnostics;
 using TetrisGame.Helpers;
+using TetrisGame.Processors.Implementations;
+using TetrisGame.Processors.Implementations.Game;
+using TetrisGame.Processors.Implementations.Pieces;
 
 namespace TetrisGame.Controllers
 {
@@ -26,7 +28,7 @@ namespace TetrisGame.Controllers
         public void GenerateNewPiece()
         {
             StorePiece();
-            _currentPiece = _game.ActivePiece;
+            _currentPiece = (Piece?)_game.ActivePiece;
 
             // Center the piece at the top
             const int middleX = (GameConstants.GridWidth - GameConstants.PieceWidth) / 2;

@@ -23,7 +23,7 @@ public class Square(Position position) : ISquare
     {
         return Position;
     }
-    
+
     public Position Position { get; set; } = position;
 
     public Colour Colour { get; set; }

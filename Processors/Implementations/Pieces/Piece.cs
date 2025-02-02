@@ -53,7 +53,7 @@ public abstract class Piece : IPiece
         return Squares.Select(sq => sq.GetPosition());
     }
 
-    public IEnumerable<Square> GetSquares()
+    public IEnumerable<ISquare> GetSquares()
     {
         return Squares;
     }

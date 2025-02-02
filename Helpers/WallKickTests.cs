@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TetrisGame.Processors.Implementations;
+using TetrisGame.Processors.Implementations.Pieces;
 
 namespace TetrisGame.Helpers
 {

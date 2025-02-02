@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TetrisGame.Processors.Implementations;
-
 namespace TetrisGame.Processors.Contracts
 {
     public interface IPiece
@@ -13,10 +9,10 @@ namespace TetrisGame.Processors.Contracts
         void MoveRight();
         void MoveDown();
         void Rotate();
-        
+
         IEnumerable<Position> GetSquarePositions();
 
-        IEnumerable<Square> GetSquares();
+        IEnumerable<ISquare> GetSquares();
 
         void ColourSquares();
 

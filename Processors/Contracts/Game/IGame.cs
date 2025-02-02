@@ -1,6 +1,4 @@
-﻿using TetrisGame.Processors.Implementations;
-
-namespace TetrisGame.Processors.Contracts
+﻿namespace TetrisGame.Processors.Contracts
 {
     internal interface IGame
     {
@@ -14,11 +12,11 @@ namespace TetrisGame.Processors.Contracts
         IEnumerable<ILine> GetLines();
         ILine GetLine(int index);
 
-        void AddPieceToGrid(Piece? piece);
+        void AddPieceToGrid(IPiece? piece);
 
         IEnumerable<ILine> GetFullLines();
         void ClearFullLines();
 
-        Piece? ActivePiece { get; set; }
+        IPiece? ActivePiece { get; set; }
     }
 }

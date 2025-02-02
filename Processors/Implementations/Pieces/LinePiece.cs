@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using TetrisGame.Processors.Contracts;
-
-namespace TetrisGame.Processors.Implementations
+﻿namespace TetrisGame.Processors.Implementations.Pieces
 {
     internal class LinePiece : Piece
     {

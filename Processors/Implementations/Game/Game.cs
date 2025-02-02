@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TetrisGame.Processors.Contracts;
+﻿using TetrisGame.Processors.Contracts;
+using TetrisGame.Processors.Implementations.Pieces;
 using TetrisGame.Utils;
 
-namespace TetrisGame.Processors.Implementations
+namespace TetrisGame.Processors.Implementations.Game
 {
     public class Game : IGame
     {
@@ -57,13 +56,13 @@ namespace TetrisGame.Processors.Implementations
 
         public ILine GetLine(int index) => _lines.ElementAt(index);
 
-        public void AddPieceToGrid(Piece? piece)
+        public void AddPieceToGrid(IPiece? piece)
         {
             if (piece == null)
             {
                 return;
             }
-            
+
             foreach (var square in piece.GetSquares())
             {
                 _lines[square!.GetPosition().Y].AddSquare(square);
@@ -86,7 +85,7 @@ namespace TetrisGame.Processors.Implementations
             }
         }
 
-        public Piece? ActivePiece { get; set; }
+        public IPiece? ActivePiece { get; set; }
 
         public bool IsPositionOccupied(Position position)
         {
@@ -97,12 +96,13 @@ namespace TetrisGame.Processors.Implementations
         // Generate the next piece randomly
         public void ResetActivePiece()
         {
-            var randomPiece = new Random().Next(2);
+            var randomPiece = new Random().Next(3);
 
             ActivePiece = randomPiece switch
             {
                 0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
+                2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth - 1),
                 _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
             };
         }

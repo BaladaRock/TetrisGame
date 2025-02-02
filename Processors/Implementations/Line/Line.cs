@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TetrisGame.Processors.Contracts;
+﻿using TetrisGame.Processors.Contracts;
 using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Implementations
@@ -17,21 +15,24 @@ namespace TetrisGame.Processors.Implementations
         }
 
         public int GetPosition() => _position;
+        IEnumerable<ISquare> ILine.GetSquares()
+        {
+            return GetSquares();
+        }
+
+        public void AddSquare(ISquare square)
+        {
+            if (!_squares.Contains(square))
+            {
+                _squares.Add((Square)square);
+            }
+        }
 
         public IEnumerable<Square> GetSquares() => _squares;
-       
 
         public void RefreshSquare(int position)
         {
             throw new NotImplementedException();
-        }
-
-        public void AddSquare(Square square)
-        {
-            if (!_squares.Contains(square))
-            {
-                _squares.Add(square);
-            }
         }
 
         public bool IsFull()

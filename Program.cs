@@ -1,7 +1,6 @@
 using TetrisGame.Controllers;
-using TetrisGame.Processors.Implementations;
+using TetrisGame.Processors.Implementations.Game;
 using TetrisGame.Views;
-using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
 
 namespace TetrisGame

@@ -1,8 +1,6 @@
-﻿using System.Drawing;
+﻿namespace TetrisGame.Processors.Contracts;
 
-namespace TetrisGame.Processors.Contracts;
-
-internal interface ISquare
+public interface ISquare
 {
     void FillWithColour(Colour colour);
 
