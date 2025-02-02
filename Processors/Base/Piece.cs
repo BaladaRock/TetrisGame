@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using TetrisGame.Processors.Contracts;
+using TetrisGame.Processors.Implementations;
 
-namespace TetrisGame.Processors.Implementations;
+namespace TetrisGame.Processors.Base;
 
 public abstract class Piece : IPiece
 {
@@ -73,6 +74,13 @@ public abstract class Piece : IPiece
     }
 
     protected abstract void DefineShape();
+
+    protected virtual bool ValidateRotation()
+    {
+        return Squares.TrueForAll(sq =>
+            sq.Position.X is >= 0 and < 10 &&
+            sq.Position.Y is >= 0 and < 20);
+    }
 
     public virtual void UpdateSquares()
     {

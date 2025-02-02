@@ -1,4 +1,6 @@
-﻿namespace TetrisGame.Processors.Implementations
+﻿using TetrisGame.Processors.Base;
+
+namespace TetrisGame.Processors.Implementations
 {
     internal class TPiece : Piece
     {
@@ -70,22 +72,13 @@
                     UpdateSquares();
                     return;
                 }
-
                 // Undo rotation if all fails
-                Position = new Position(Position.X - 1, Position.Y); // Reset position
+                Position = new Position(Position.X - 1, Position.Y);
                 RotationState = oldRotation;
                 DefineShape();
             }
 
             UpdateSquares();
-        }
-
-
-        private bool ValidateRotation()
-        {
-            return Squares.TrueForAll(sq =>
-                sq.Position.X is >= 0 and < 10 &&
-                sq.Position.Y is >= 0 and < 20);
         }
 
         public override void UpdateSquares()

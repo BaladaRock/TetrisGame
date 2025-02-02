@@ -1,4 +1,6 @@
-﻿namespace TetrisGame.Processors.Implementations;
+﻿using TetrisGame.Processors.Base;
+
+namespace TetrisGame.Processors.Implementations;
 
 internal class SquarePiece : Piece
 {

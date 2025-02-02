@@ -4,8 +4,8 @@ using TetrisGame.Utils;
 using TetrisGame.Processors;
 using System.Diagnostics;
 using TetrisGame.Helpers;
-using TetrisGame.Processors.Implementations;
 using TetrisGame.Processors.Implementations.Game;
+using TetrisGame.Processors.Base;
 
 namespace TetrisGame.Controllers
 {

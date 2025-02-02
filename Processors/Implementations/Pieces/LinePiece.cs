@@ -1,4 +1,6 @@
-﻿namespace TetrisGame.Processors.Implementations
+﻿using TetrisGame.Processors.Base;
+
+namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
@@ -42,13 +44,6 @@
             }
 
             UpdateSquares();
-        }
-
-        private bool ValidateRotation()
-        {
-            return Squares.TrueForAll(sq =>
-                sq.Position.X is >= 0 and < 10 &&
-                sq.Position.Y is >= 0 and < 20);
         }
 
         public override void UpdateSquares()
