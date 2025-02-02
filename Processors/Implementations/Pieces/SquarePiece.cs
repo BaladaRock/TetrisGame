@@ -20,10 +20,4 @@ internal class SquarePiece : Piece
         Squares.Add(new Square(new Position(Position.X, Position.Y + 1)));
         Squares.Add(new Square(new Position(Position.X + 1, Position.Y + 1)));
     }
-
-    public override void UpdateSquares()
-    {
-        DefineShape();
-        ColourSquares();
-    }
 }

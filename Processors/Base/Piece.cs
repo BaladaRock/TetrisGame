@@ -46,7 +46,9 @@ public abstract class Piece : IPiece
 
     public virtual void Rotate()
     {
-        Debug.WriteLine("Rotation attempted on SquarePiece - No effect.");
+        RotationState = (RotationState + 1) % PieceSize; // Rotate to the next state
+        DefineShape();
+        UpdateSquares();
     }
 
     public IEnumerable<Position> GetSquarePositions()
@@ -84,11 +86,7 @@ public abstract class Piece : IPiece
 
     public virtual void UpdateSquares()
     {
-        for (byte i = 0; i < Squares.Count; i++)
-        {
-            Squares[i].Position = new Position(Position.X + i, Position.Y);
-        }
-
+        DefineShape();
         ColourSquares();
     }
 

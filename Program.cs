@@ -19,7 +19,7 @@ namespace TetrisGame
             // Initialize the MVC components
             var gameView = new GameView();
             var gameModel = new Game(20);
-            var gameTimer = new Timer { Interval = 1000 };
+            var gameTimer = new Timer { Interval = 30000 };
             var gameController = new GameController(gameView, gameModel, gameTimer);
 
             // Run the application

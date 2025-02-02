@@ -125,15 +125,13 @@ namespace TetrisGame.Controllers
             var oldRotation = _currentPiece.RotationState;
             _currentPiece.Rotate(); // Try rotating first
             var newRotation = _currentPiece.RotationState;
-            
             // If the rotated piece is valid, apply it
             if (_game.CanMove(_currentPiece, 0, 0))
             {
                 UpdatePieceView();
                 return;
             }
-
-            // Use correct wall kick tests
+            // Wall kick tests
             var wallKickTests = WallKickTests.GetWallKickTests(_currentPiece, oldRotation, newRotation);
             foreach (var (shiftX, shiftY) in wallKickTests)
             {
