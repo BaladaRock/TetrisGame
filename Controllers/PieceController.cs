@@ -42,7 +42,7 @@ namespace TetrisGame.Controllers
                 return;
             }
 
-            if (!CanMove(0, 1))
+            if (!_game.CanMove(_currentPiece, 0, 1))
             {
                 _canMove = false; // Lock movement until a new piece is generated
                 StorePiece();
@@ -58,7 +58,7 @@ namespace TetrisGame.Controllers
 
         public void MovePieceLeft()
         {
-            if (!CanMove(-1, 0))
+            if (_currentPiece == null || !_game.CanMove(_currentPiece, -1, 0))
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace TetrisGame.Controllers
 
         public void MovePieceRight()
         {
-            if (!CanMove(1, 0))
+            if (_currentPiece == null || !_game.CanMove(_currentPiece, 1, 0))
             {
                 return;
             }
@@ -113,5 +113,23 @@ namespace TetrisGame.Controllers
         }
 
 
+        public void RotatePiece()
+        {
+            if (_currentPiece == null)
+            {
+                return;
+            }
+
+            var oldSquares = _currentPiece.GetSquarePositions().ToList();
+
+            _currentPiece.Rotate();
+
+            if (!_game.CanMove(_currentPiece, 0, 0)) // If rotation results in collision
+            {
+                _currentPiece.SetSquares(); // Reset to original state
+            }
+
+            UpdatePieceView();
+        }
     }
 }

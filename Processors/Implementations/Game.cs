@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TetrisGame.Processors.Contracts;
+using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Implementations
 {
@@ -14,13 +15,24 @@ namespace TetrisGame.Processors.Implementations
             Size = size;
             _squares = new Square[Size, Size];
             SetSquares();
-            ActivePiece = new LinePiece(Size / 2, Size);
+            ActivePiece = new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth);
 
             _lines = new List<Line>(Size);
             SetLines();
         }
 
         public int Size { get; set; }
+
+        public bool CanMove(IPiece piece, int deltaX, int deltaY)
+        {
+            return piece.GetSquarePositions().All(pos =>
+                pos.X + deltaX >= 0 &&
+                pos.X + deltaX < GameConstants.GridWidth &&
+                pos.Y + deltaY >= 0 &&
+                pos.Y + deltaY < GameConstants.GridHeight &&
+                !IsPositionOccupied(new Position(pos.X + deltaX, pos.Y + deltaY))
+            );
+        }
 
         public void SetSquares()
         {
@@ -78,12 +90,13 @@ namespace TetrisGame.Processors.Implementations
 
         public bool IsPositionOccupied(Position position)
         {
-            return _lines.Any(line => line.GetSquares().Any(sq => sq.GetPosition().Equals(position)));
+            return _lines.Any(line => line.GetSquares()
+                .Any(sq => sq.GetPosition().Equals(position)));
         }
 
         public void ResetActivePiece()
         {
-            ActivePiece = new LinePiece(Size / 2, Size);
+            ActivePiece = new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth);
         }
     }
 }

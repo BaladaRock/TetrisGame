@@ -12,48 +12,41 @@ namespace TetrisGame.Processors.Implementations
         protected List<Square> Squares { get; set; }
         protected Position Position { get; set; }
 
-        protected Piece(int gameWidth, int gameHeight)
+        protected Piece(int gameWidth, int gameHeight, byte pieceSize)
         {
             _gameWidth = gameWidth;
             _gameHeight = gameHeight;
-            Squares = [];
+            PieceSize = pieceSize;
+            Squares = new List<Square>(PieceSize);
             Position = new Position(0, 0);
             SetSquares();
         }
+
+        internal byte PieceSize { get; set; }
 
         protected internal Colour Colour;
 
         public void MoveLeft()
         {
-            if (!CanMove(-1, 0))
-            {
-                return;
-            }
-            
             Position = new Position((byte)(Position.X - 1), Position.Y);
             UpdateSquares();
         }
 
         public void MoveRight()
         {
-            if (!CanMove(1, 0))
-            {
-                return;
-            }
-            
             Position = new Position((byte)(Position.X + 1), Position.Y);
             UpdateSquares();
         }
 
         public void MoveDown()
         {
-            if (!CanMove(0, 1))
-            {
-                return;
-            }
-            
             Position = new Position(Position.X, (byte)(Position.Y + 1));
             UpdateSquares();
+        }
+
+        public void MoveUp()
+        {
+            Rotate();
         }
 
         public IEnumerable<Position> GetSquarePositions()
@@ -81,19 +74,10 @@ namespace TetrisGame.Processors.Implementations
         }
 
         protected abstract void DefineShape();
-        protected abstract void Rotate();
 
-        private bool CanMove(int deltaX, int deltaY)
-        {
-            return Squares.All(sq =>
-                    sq.GetPosition().X + deltaX >= 0 &&
-                    sq.GetPosition().X + deltaX < _gameWidth &&
-                    sq.GetPosition().Y + deltaY >= 0 &&  
-                    sq.GetPosition().Y + deltaY < _gameHeight
-            );
-        }
+        protected internal abstract void Rotate();
 
-        public void UpdateSquares()
+        public virtual void UpdateSquares()
         {
             for (byte i = 0; i < Squares.Count; i++)
             {
@@ -108,5 +92,6 @@ namespace TetrisGame.Processors.Implementations
         {
             Position = position;
         }
+
     }
 }

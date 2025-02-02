@@ -6,6 +6,8 @@ namespace TetrisGame.Processors.Contracts
     {
         int Size { get; set; }
 
+        bool CanMove(IPiece piece, int deltaX, int deltaY);
+
         void SetSquares();
         void SetLines();
 

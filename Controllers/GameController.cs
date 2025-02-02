@@ -52,6 +52,10 @@ namespace TetrisGame.Controllers
                 case Keys.Down:
                     _pieceController.MovePieceDown();
                     break;
+                case Keys.W:
+                case Keys.Up:
+                    _pieceController.RotatePiece();
+                    break;
             }
         }
 

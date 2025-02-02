@@ -5,9 +5,10 @@ namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
+        private bool _isHorizontal = true;
 
-        public LinePiece(int gameWidth, int gameHeight) 
-            : base(gameWidth, gameHeight)
+        public LinePiece(int gameWidth, int gameHeight, byte pieceSize) 
+            : base(gameWidth, gameHeight, pieceSize)
         {
             Colour = Colour.Blue;
             DefineShape();
@@ -16,15 +17,32 @@ namespace TetrisGame.Processors.Implementations
         protected sealed override void DefineShape()
         {
             Squares.Clear();
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < PieceSize; i++)
             {
                 Squares.Add(new Square(new Position(Position.X + i, Position.Y)));
             }
         }
 
-        protected override void Rotate()
+        protected internal override void Rotate()
         {
-            // To be done
+            Squares.Clear();
+            if (_isHorizontal) // If currently horizontal, switch to vertical
+            {
+                for (var i = 0; i < PieceSize; i++)
+                {
+                    Squares.Add(new Square(new Position(Position.X, Position.Y + i)));
+                }
+            }
+            else // Otherwise, switch to horizontal
+            {
+                for (var i = 0; i < PieceSize; i++)
+                {
+                    Squares.Add(new Square(new Position(Position.X + i, Position.Y)));
+                }
+            }
+
+            _isHorizontal = !_isHorizontal;
         }
+
     }
 }

@@ -7,11 +7,12 @@ using TetrisGame.Processors.Implementations;
 
 namespace TetrisGame.Processors.Contracts
 {
-    internal interface IPiece
+    public interface IPiece
     {
         void MoveLeft();
         void MoveRight();
         void MoveDown();
+        void MoveUp();
         
         IEnumerable<Position> GetSquarePositions();
 
@@ -22,6 +23,6 @@ namespace TetrisGame.Processors.Contracts
         void SetSquares();
 
         void SetPosition(Position newPosition);
-        
+
     }
 }
