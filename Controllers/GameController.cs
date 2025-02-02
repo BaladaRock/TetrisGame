@@ -33,7 +33,7 @@ namespace TetrisGame.Controllers
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (_game.GetActivePiece() == null)
+            if (_game.ActivePiece == null)
             {
                 return;
             }
@@ -60,9 +60,13 @@ namespace TetrisGame.Controllers
             if (_pieceController.HasPieceLanded())
             {
                 Debug.WriteLine("Piece reached the bottom. Generating new piece.");
+                _game.ResetActivePiece();
                 _pieceController.StorePiece();
-                //_pieceController = new PieceController(_game, _pieceView);
                 _pieceController.GenerateNewPiece();
+                if (!_pieceController.CanMove(0, 0)) // If new piece collides immediately
+                {
+                    Debug.WriteLine("Game Over! A new piece collided at spawn.");
+                }
             }
             else
             {

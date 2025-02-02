@@ -11,9 +11,11 @@ namespace TetrisGame.Controllers
         private readonly Game _game;
         private readonly PieceView _pieceView;
         private Piece? _currentPiece;
+        private bool _canMove;
 
         public PieceController(Game game, PieceView pieceView)
         {
+            _canMove = true;
             _game = game;
             _pieceView = pieceView;
             GenerateNewPiece();
@@ -22,7 +24,7 @@ namespace TetrisGame.Controllers
         public void GenerateNewPiece()
         {
             StorePiece();
-            _currentPiece = _game.GetActivePiece();
+            _currentPiece = _game.ActivePiece;
 
             // Center the piece at the top
             const int middleX = (GameConstants.GridWidth - GameConstants.PieceWidth) / 2;
@@ -35,19 +37,22 @@ namespace TetrisGame.Controllers
 
         public void MovePieceDown()
         {
-            if (_currentPiece == null)
+            if (_currentPiece == null || !_canMove)
             {
-                return;
-            }
-            if (!CanMove(0, 1))
-            {
-                _game.AddPieceToGrid(_currentPiece);
-                UpdatePieceView();
-                GenerateNewPiece();
                 return;
             }
 
-            _currentPiece?.MoveDown();
+            if (!CanMove(0, 1))
+            {
+                _canMove = false; // Lock movement until a new piece is generated
+                StorePiece();
+                _game.ResetActivePiece();
+                GenerateNewPiece();
+                _canMove = true; // Unlock movement for the next piece
+                return;
+            }
+
+            _currentPiece.MoveDown();
             UpdatePieceView();
         }
 
@@ -71,7 +76,7 @@ namespace TetrisGame.Controllers
             UpdatePieceView();
         }
 
-        private bool CanMove(int deltaX, int deltaY)
+        internal bool CanMove(int deltaX, int deltaY)
         {
             return _currentPiece!.GetSquarePositions().All(pos =>
                 pos.Y + deltaY < GameConstants.GridHeight &&

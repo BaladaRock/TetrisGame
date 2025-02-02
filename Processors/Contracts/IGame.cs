@@ -17,6 +17,6 @@ namespace TetrisGame.Processors.Contracts
         IEnumerable<ILine> GetFullLines();
         void ClearFullLines();
 
-        Piece? GetActivePiece();
+        Piece? ActivePiece { get; set; }
     }
 }

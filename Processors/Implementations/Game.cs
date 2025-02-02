@@ -8,14 +8,13 @@ namespace TetrisGame.Processors.Implementations
     {
         private readonly Square[,] _squares;
         private readonly List<Line> _lines;
-        private Piece? _activePiece;
 
         public Game(int size)
         {
             Size = size;
             _squares = new Square[Size, Size];
             SetSquares();
-            _activePiece = new LinePiece(Size / 2, Size);
+            ActivePiece = new LinePiece(Size / 2, Size);
 
             _lines = new List<Line>(Size);
             SetLines();
@@ -75,11 +74,16 @@ namespace TetrisGame.Processors.Implementations
             }
         }
 
-        public Piece? GetActivePiece() => _activePiece;
+        public Piece? ActivePiece { get; set; }
 
         public bool IsPositionOccupied(Position position)
         {
             return _lines.Any(line => line.GetSquares().Any(sq => sq.GetPosition().Equals(position)));
+        }
+
+        public void ResetActivePiece()
+        {
+            ActivePiece = new LinePiece(Size / 2, Size);
         }
     }
 }
