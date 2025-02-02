@@ -23,7 +23,7 @@ namespace TetrisGame.Processors.Implementations
                     Squares.Add(new Square(new Position(Position.X + i - 2, Position.Y)));
                 }
             }
-            else                        // Vertical
+            else // Vertical
             {
                 for (var i = 0; i < PieceSize; i++)
                 {
@@ -40,7 +40,7 @@ namespace TetrisGame.Processors.Implementations
 
             if (!ValidateRotation())
             {
-                RotationState = oldRotation;         // Undo rotation if invalid
+                RotationState = oldRotation; // Undo rotation if invalid
                 DefineShape();
             }
 
@@ -56,14 +56,14 @@ namespace TetrisGame.Processors.Implementations
 
         public override void UpdateSquares()
         {
-            if (RotationState == 0 || RotationState == 2) // Horizontal
+            if (RotationState is 0 or 2) // Horizontal
             {
                 for (var i = 0; i < Squares.Count; i++)
                 {
                     Squares[i].Position = new Position(Position.X + i - 2, Position.Y);
                 }
             }
-            else                                          // Vertical
+            else  // Vertical
             {
                 for (var i = 0; i < Squares.Count; i++)
                 {

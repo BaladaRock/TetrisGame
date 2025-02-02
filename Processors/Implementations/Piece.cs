@@ -1,6 +1,7 @@
-﻿using TetrisGame.Processors.Contracts;
-using TetrisGame.Processors.Implementations;
-using TetrisGame.Processors;
+﻿using System.Diagnostics;
+using TetrisGame.Processors.Contracts;
+
+namespace TetrisGame.Processors.Implementations;
 
 public abstract class Piece : IPiece
 {
@@ -42,7 +43,10 @@ public abstract class Piece : IPiece
         UpdateSquares();
     }
 
-    public abstract void Rotate();
+    public virtual void Rotate()
+    {
+        Debug.WriteLine("Rotation attempted on SquarePiece - No effect.");
+    }
 
     public IEnumerable<Position> GetSquarePositions()
     {

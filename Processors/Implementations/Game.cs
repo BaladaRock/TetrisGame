@@ -94,9 +94,17 @@ namespace TetrisGame.Processors.Implementations
                 .Any(sq => sq.GetPosition().Equals(position)));
         }
 
+        // Generate the next piece randomly
         public void ResetActivePiece()
         {
-            ActivePiece = new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth);
+            var randomPiece = new Random().Next(2);
+
+            ActivePiece = randomPiece switch
+            {
+                0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
+            };
         }
     }
 }
