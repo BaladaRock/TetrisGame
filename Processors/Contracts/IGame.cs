@@ -12,11 +12,11 @@ namespace TetrisGame.Processors.Contracts
         IEnumerable<ILine> GetLines();
         ILine GetLine(int index);
 
-        void AddPieceToGrid(Piece piece);
+        void AddPieceToGrid(Piece? piece);
 
         IEnumerable<ILine> GetFullLines();
         void ClearFullLines();
 
-        Piece GetActivePiece();
+        Piece? GetActivePiece();
     }
 }

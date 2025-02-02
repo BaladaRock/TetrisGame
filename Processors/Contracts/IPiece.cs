@@ -10,11 +10,7 @@ namespace TetrisGame.Processors.Contracts
     internal interface IPiece
     {
         void MoveLeft();
-        
         void MoveRight();
-        
-        void MoveUp();
-        
         void MoveDown();
         
         IEnumerable<Position> GetSquarePositions();

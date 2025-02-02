@@ -45,17 +45,6 @@ namespace TetrisGame.Processors.Implementations
             UpdateSquares();
         }
 
-        public void MoveUp()
-        {
-            if (!CanMove(0, -1))
-            {
-                return;
-            }
-
-            Position = new Position(Position.X, (byte)(Position.Y - 1));
-            UpdateSquares();
-        }
-
         public void MoveDown()
         {
             if (!CanMove(0, 1))
@@ -111,9 +100,9 @@ namespace TetrisGame.Processors.Implementations
                 var pos = Squares[i].GetPosition();
                 Squares[i].Position = (new Position(Position.X + i, Position.Y));
             }
+            
             ColourSquares();
         }
-
 
         public void SetPosition(Position position)
         {

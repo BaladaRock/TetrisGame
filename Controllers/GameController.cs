@@ -11,7 +11,7 @@ namespace TetrisGame.Controllers
         private readonly Game _game;
         private readonly GameView _gameView;
         private readonly PieceView _pieceView;
-        private readonly PieceController _pieceController;
+        private PieceController _pieceController;
         private Timer _gameTimer;
 
         public GameController(GameView gameView, Game tetrisGame, Timer gameTimer)
@@ -33,13 +33,24 @@ namespace TetrisGame.Controllers
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (_game.GetActivePiece() == null)
+            {
+                return;
+            }
+
             switch (e.KeyCode)
             {
-                case Keys.A: _pieceController.MovePieceLeft();
+                case Keys.A:
+                case Keys.Left:
+                    _pieceController.MovePieceLeft();
                     break;
-                case Keys.D: _pieceController.MovePieceRight();
+                case Keys.D:
+                case Keys.Right:    
+                    _pieceController.MovePieceRight();
                     break;
-                case Keys.S: _pieceController.MovePieceDown();
+                case Keys.S:
+                case Keys.Down:
+                    _pieceController.MovePieceDown();
                     break;
             }
         }
@@ -49,6 +60,8 @@ namespace TetrisGame.Controllers
             if (_pieceController.HasPieceLanded())
             {
                 Debug.WriteLine("Piece reached the bottom. Generating new piece.");
+                _pieceController.StorePiece();
+                //_pieceController = new PieceController(_game, _pieceView);
                 _pieceController.GenerateNewPiece();
             }
             else

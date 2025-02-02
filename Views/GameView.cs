@@ -32,6 +32,13 @@ public sealed partial class GameView : Form
         _pieceView.BringToFront();
     }
 
+    // Need to override this to enable the arrow key controls
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        OnKeyDown(new KeyEventArgs(keyData));
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
     private void OnPaint(object sender, PaintEventArgs e)
     {
         RenderGameArea(e.Graphics);
