@@ -3,6 +3,8 @@ using TetrisGame.Views.Pieces;
 using TetrisGame.Processors.Implementations;
 using TetrisGame.Utils;
 using TetrisGame.Processors;
+using System.Diagnostics;
+using TetrisGame.Helpers;
 
 namespace TetrisGame.Controllers
 {
@@ -112,7 +114,6 @@ namespace TetrisGame.Controllers
             _pieceView.AddLandedSquares(positions, Helpers.ColourMapper.ToColor(_currentPiece.Colour));
         }
 
-
         public void RotatePiece()
         {
             if (_currentPiece == null)
@@ -120,16 +121,39 @@ namespace TetrisGame.Controllers
                 return;
             }
 
-            var oldSquares = _currentPiece.GetSquarePositions().ToList();
-
-            _currentPiece.Rotate();
-
-            if (!_game.CanMove(_currentPiece, 0, 0)) // If rotation results in collision
+            var oldRotation = _currentPiece.RotationState;
+            _currentPiece.Rotate(); // Try rotating first
+            var newRotation = _currentPiece.RotationState;
+            
+            // If the rotated piece is valid, apply it
+            if (_game.CanMove(_currentPiece, 0, 0))
             {
-                _currentPiece.SetSquares(); // Reset to original state
+                UpdatePieceView();
+                return;
             }
 
-            UpdatePieceView();
+            // Use correct wall kick tests
+            var wallKickTests = WallKickTests.GetWallKickTests(_currentPiece, oldRotation, newRotation);
+            foreach (var (shiftX, shiftY) in wallKickTests)
+            {
+                if (!_currentPiece.GetSquarePositions()
+                        .All(pos => _game.CanMove(_currentPiece, shiftX, shiftY)))
+                {
+                    continue;
+                }
+                _currentPiece.SetPosition(new Position(
+                    _currentPiece.GetSquarePositions().First().X + shiftX, 
+                    _currentPiece.GetSquarePositions().First().Y + shiftY
+                ));
+                UpdatePieceView();
+                return;
+            }
+
+            // If all shifts fail, revert rotation
+            Debug.WriteLine("Rotation failed: Out of bounds or collision.");
+            _currentPiece.Rotate(); // Undo the rotation
         }
+       
+        
     }
 }

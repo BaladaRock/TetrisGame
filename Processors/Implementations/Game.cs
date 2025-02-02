@@ -26,11 +26,11 @@ namespace TetrisGame.Processors.Implementations
         public bool CanMove(IPiece piece, int deltaX, int deltaY)
         {
             return piece.GetSquarePositions().All(pos =>
-                pos.X + deltaX >= 0 &&
-                pos.X + deltaX < GameConstants.GridWidth &&
-                pos.Y + deltaY >= 0 &&
-                pos.Y + deltaY < GameConstants.GridHeight &&
-                !IsPositionOccupied(new Position(pos.X + deltaX, pos.Y + deltaY))
+                pos.X + deltaX >= 0 &&                                                     // Left boundary check
+                pos.X + deltaX < GameConstants.GridWidth &&                                // Right boundary check
+                pos.Y + deltaY >= 0 &&                                                     // Top boundary check
+                pos.Y + deltaY < GameConstants.GridHeight &&                               // Left boundary check
+                !IsPositionOccupied(new Position(pos.X + deltaX, pos.Y + deltaY)) // Piece collision check
             );
         }
 

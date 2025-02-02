@@ -2,12 +2,8 @@
 
 namespace TetrisGame.Processors.Implementations;
 
-public class Square : ISquare
+public class Square(Position position) : ISquare
 {
-    public Square(Position position)
-    {
-        Position = position;
-    }
     public void FillWithColour(Colour colour)
     {
         Colour = colour;
@@ -28,7 +24,7 @@ public class Square : ISquare
         return Position;
     }
     
-    public Position Position { get; set; }
+    public Position Position { get; set; } = position;
 
     public Colour Colour { get; set; }
 }

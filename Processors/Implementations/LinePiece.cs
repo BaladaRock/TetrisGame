@@ -5,8 +5,6 @@ namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
-        private bool _isHorizontal = true; // Track rotation state
-
         public LinePiece(int gameWidth, int gameHeight, byte pieceSize)
             : base(gameWidth, gameHeight, pieceSize)
         {
@@ -18,48 +16,62 @@ namespace TetrisGame.Processors.Implementations
         {
             Squares.Clear();
 
-            if (_isHorizontal)
+            if (RotationState is 0 or 2) // Horizontal
             {
                 for (var i = 0; i < PieceSize; i++)
                 {
-                    Squares.Add(new Square(new Position(Position.X + i, Position.Y)));
+                    Squares.Add(new Square(new Position(Position.X + i - 2, Position.Y)));
                 }
             }
-            else
+            else                        // Vertical
             {
                 for (var i = 0; i < PieceSize; i++)
                 {
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + i)));
+                    Squares.Add(new Square(new Position(Position.X, Position.Y + i - 2)));
                 }
             }
         }
 
         public override void Rotate()
         {
-            _isHorizontal = !_isHorizontal;
+            var oldRotation = RotationState;
+            RotationState = (RotationState + 1) % 4; // Rotate to the next state
             DefineShape();
+
+            if (!ValidateRotation())
+            {
+                RotationState = oldRotation;         // Undo rotation if invalid
+                DefineShape();
+            }
+
             UpdateSquares();
+        }
+
+        private bool ValidateRotation()
+        {
+            return Squares.TrueForAll(sq =>
+                sq.GetPosition().X >= 0 && sq.GetPosition().X < 10 &&
+                sq.GetPosition().Y >= 0 && sq.GetPosition().Y < 20);
         }
 
         public override void UpdateSquares()
         {
-            if (_isHorizontal)
+            if (RotationState == 0 || RotationState == 2) // Horizontal
             {
-                for (int i = 0; i < Squares.Count; i++)
+                for (var i = 0; i < Squares.Count; i++)
                 {
-                    Squares[i].Position = new Position(Position.X + i, Position.Y);
+                    Squares[i].Position = new Position(Position.X + i - 2, Position.Y);
                 }
             }
-            else
+            else                                          // Vertical
             {
-                for (int i = 0; i < Squares.Count; i++)
+                for (var i = 0; i < Squares.Count; i++)
                 {
-                    Squares[i].Position = new Position(Position.X, Position.Y + i);
+                    Squares[i].Position = new Position(Position.X, Position.Y + i - 2);
                 }
             }
 
             ColourSquares();
         }
     }
-
 }
