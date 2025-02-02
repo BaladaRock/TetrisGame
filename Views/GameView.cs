@@ -18,9 +18,9 @@ public sealed partial class GameView : Form
         DoubleBuffered = true;
         BackColor = Color.AntiqueWhite;
 
+        KeyPreview = true;
         Paint += OnPaint!;
         Resize += OnResize!;
-        KeyPreview = true;
     }
 
     public void SetPieceView(PieceView pieceView)
@@ -32,11 +32,17 @@ public sealed partial class GameView : Form
         _pieceView.BringToFront();
     }
 
-    // Need to override this to enable the arrow key controls
+    // Need to override this to enable the arrow key controls (normally they don't work)
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
+        // Intercept only keys that are not in the arrow keys range(Up, Down, Left, Right)
+        if (keyData is < Keys.Left or > Keys.Down)
+        {
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        
         OnKeyDown(new KeyEventArgs(keyData));
-        return base.ProcessCmdKey(ref msg, keyData);
+        return true;
     }
 
     private void OnPaint(object sender, PaintEventArgs e)

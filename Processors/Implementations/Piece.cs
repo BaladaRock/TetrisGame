@@ -44,10 +44,7 @@ namespace TetrisGame.Processors.Implementations
             UpdateSquares();
         }
 
-        public void MoveUp()
-        {
-            Rotate();
-        }
+        public abstract void Rotate();
 
         public IEnumerable<Position> GetSquarePositions()
         {
@@ -75,14 +72,11 @@ namespace TetrisGame.Processors.Implementations
 
         protected abstract void DefineShape();
 
-        protected internal abstract void Rotate();
-
         public virtual void UpdateSquares()
         {
             for (byte i = 0; i < Squares.Count; i++)
             {
-                var pos = Squares[i].GetPosition();
-                Squares[i].Position = (new Position(Position.X + i, Position.Y));
+                Squares[i].Position = new Position(Position.X + i, Position.Y);
             }
             
             ColourSquares();

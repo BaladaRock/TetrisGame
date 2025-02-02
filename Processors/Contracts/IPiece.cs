@@ -12,7 +12,7 @@ namespace TetrisGame.Processors.Contracts
         void MoveLeft();
         void MoveRight();
         void MoveDown();
-        void MoveUp();
+        void Rotate();
         
         IEnumerable<Position> GetSquarePositions();
 

@@ -5,9 +5,9 @@ namespace TetrisGame.Processors.Implementations
 {
     internal class LinePiece : Piece
     {
-        private bool _isHorizontal = true;
+        private bool _isHorizontal = true; // Track rotation state
 
-        public LinePiece(int gameWidth, int gameHeight, byte pieceSize) 
+        public LinePiece(int gameWidth, int gameHeight, byte pieceSize)
             : base(gameWidth, gameHeight, pieceSize)
         {
             Colour = Colour.Blue;
@@ -17,32 +17,49 @@ namespace TetrisGame.Processors.Implementations
         protected sealed override void DefineShape()
         {
             Squares.Clear();
-            for (var i = 0; i < PieceSize; i++)
-            {
-                Squares.Add(new Square(new Position(Position.X + i, Position.Y)));
-            }
-        }
 
-        protected internal override void Rotate()
-        {
-            Squares.Clear();
-            if (_isHorizontal) // If currently horizontal, switch to vertical
-            {
-                for (var i = 0; i < PieceSize; i++)
-                {
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + i)));
-                }
-            }
-            else // Otherwise, switch to horizontal
+            if (_isHorizontal)
             {
                 for (var i = 0; i < PieceSize; i++)
                 {
                     Squares.Add(new Square(new Position(Position.X + i, Position.Y)));
                 }
             }
-
-            _isHorizontal = !_isHorizontal;
+            else
+            {
+                for (var i = 0; i < PieceSize; i++)
+                {
+                    Squares.Add(new Square(new Position(Position.X, Position.Y + i)));
+                }
+            }
         }
 
+        public override void Rotate()
+        {
+            _isHorizontal = !_isHorizontal;
+            DefineShape();
+            UpdateSquares();
+        }
+
+        public override void UpdateSquares()
+        {
+            if (_isHorizontal)
+            {
+                for (int i = 0; i < Squares.Count; i++)
+                {
+                    Squares[i].Position = new Position(Position.X + i, Position.Y);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Squares.Count; i++)
+                {
+                    Squares[i].Position = new Position(Position.X, Position.Y + i);
+                }
+            }
+
+            ColourSquares();
+        }
     }
+
 }
