@@ -1,5 +1,4 @@
 ﻿using TetrisGame.Processors.Contracts;
-using TetrisGame.Processors.Implementations.Pieces;
 using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Implementations.Game
@@ -65,7 +64,7 @@ namespace TetrisGame.Processors.Implementations.Game
 
             foreach (var square in piece.GetSquares())
             {
-                _lines[square!.GetPosition().Y].AddSquare(square);
+                _lines[square!.Position.Y].AddSquare(square);
             }
 
             ClearFullLines();
@@ -90,7 +89,7 @@ namespace TetrisGame.Processors.Implementations.Game
         public bool IsPositionOccupied(Position position)
         {
             return _lines.Any(line => line.GetSquares()
-                .Any(sq => sq.GetPosition().Equals(position)));
+                .Any(sq => sq.Position.Equals(position)));
         }
 
         // Generate the next piece randomly

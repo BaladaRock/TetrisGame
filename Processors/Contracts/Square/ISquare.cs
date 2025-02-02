@@ -8,7 +8,7 @@ public interface ISquare
 
     bool IsColoured();
 
-    Position Position { get; set; }
+    Position Position { get; }
 
     Colour Colour { get; set; }
 

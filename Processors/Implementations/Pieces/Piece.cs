@@ -27,19 +27,19 @@ public abstract class Piece : IPiece
 
     public void MoveLeft()
     {
-        Position = new Position((byte)(Position.X - 1), Position.Y);
+        Position = new Position(Position.X - 1, Position.Y);
         UpdateSquares();
     }
 
     public void MoveRight()
     {
-        Position = new Position((byte)(Position.X + 1), Position.Y);
+        Position = new Position(Position.X + 1, Position.Y);
         UpdateSquares();
     }
 
     public void MoveDown()
     {
-        Position = new Position(Position.X, (byte)(Position.Y + 1));
+        Position = new Position(Position.X, Position.Y + 1);
         UpdateSquares();
     }
 
@@ -50,7 +50,7 @@ public abstract class Piece : IPiece
 
     public IEnumerable<Position> GetSquarePositions()
     {
-        return Squares.Select(sq => sq.GetPosition());
+        return Squares.Select(sq => sq.Position);
     }
 
     public IEnumerable<ISquare> GetSquares()
