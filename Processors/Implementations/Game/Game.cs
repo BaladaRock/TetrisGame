@@ -8,15 +8,48 @@ namespace TetrisGame.Processors.Implementations.Game
     {
         private readonly Square[,] _squares;
         private readonly List<Line> _lines;
+        private List<string> _pieceSequence = [];
+        private int _currentPieceIndex;
+
 
         public Game(int size)
         {
             Size = size;
             _squares = new Square[Size, Size];
             SetSquares();
-            ResetActivePiece();
             _lines = new List<Line>(Size);
             SetLines();
+
+            // Read the pieces from a .txt file
+            LoadPieceSequence("pieces.txt");
+
+            ResetActivePiece();
+        }
+
+        public void LoadPieceSequence(string filePath)
+        {
+
+            if (File.Exists(filePath))
+            {
+                _pieceSequence = File.ReadAllLines(filePath).ToList();
+            }
+            else
+            {
+                Debug.WriteLine("Piece file not found! Generating new sequence.");
+                GeneratePieceFile(filePath);
+            }
+        }
+
+        private static void GeneratePieceFile(string filePath)
+        {
+            string[] pieceTypes = ["I", "O", "T", "S", "Z", "L", "J"];
+            var random = new Random();
+            var pieces = Enumerable.Range(0, 1000)
+                .Select(_ => pieceTypes[random.Next(pieceTypes.Length)])
+                .ToList();
+
+            File.WriteAllLines(filePath, pieces);
+            Debug.WriteLine($"Generated 1000 pieces in {filePath}");
         }
 
         public int Size { get; set; }
@@ -70,7 +103,7 @@ namespace TetrisGame.Processors.Implementations.Game
                     Debug.WriteLine("Game Over! A new piece collided at spawn.");
                     return;
                 }
-                
+
                 _lines[square.Position.Y].AddSquare(square);
             }
 
@@ -102,17 +135,25 @@ namespace TetrisGame.Processors.Implementations.Game
         // Generate the next piece randomly
         public void ResetActivePiece()
         {
-            var randomPiece = new Random().Next(7);
-
-            ActivePiece = randomPiece switch
+            if (_pieceSequence.Count == 0)
             {
-                0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
-                2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                Debug.WriteLine("Piece sequence is empty. Regenerating.");
+                GeneratePieceFile("pieces.txt");
+                LoadPieceSequence("pieces.txt");
+            }
+
+            var nextPiece = _pieceSequence[_currentPieceIndex];
+            _currentPieceIndex = (_currentPieceIndex + 1) % _pieceSequence.Count; // Loop back when reaching the end
+
+            ActivePiece = nextPiece switch
+            {
+                "I" => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "O" => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
+                "T" => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "S" => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "Z" => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "L" => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "J" => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
                 _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
             };
         }
