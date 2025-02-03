@@ -7,15 +7,15 @@ TetrisGame is an implementation of the classic Tetris game, developed in C# usin
 
 ## Features
 
-✅ Fully implemented Tetris pieces (I, O, T, S, Z, L, J)
-✅ Piece rotation based on the Super Rotation System (SRS)
-✅ Piece generation based on a predefined sequence from a file
-✅ Proper handling of collisions and grid boundaries
-✅ Fast piece drop functionality
-✅ Detection and clearing of full lines
-✅ Random or file-based piece generation
-✅ "Wall Kick" system for improved rotation near edges
-✅ User-friendly Windows Forms interface
+- Fully implemented Tetris pieces (I, O, T, S, Z, L, J)
+- Piece rotation based on the Super Rotation System (SRS)
+- Piece generation based on a predefined sequence from a file
+- Proper handling of collisions and grid boundaries
+- Fast piece drop functionality
+- Detection and clearing of full lines
+- Random or file-based piece generation
+- "Wall Kick" system for improved rotation near edges
+- User-friendly Windows Forms interface
 
 ## Technologies Used
 
