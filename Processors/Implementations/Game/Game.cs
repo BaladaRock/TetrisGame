@@ -1,4 +1,5 @@
-﻿using TetrisGame.Processors.Contracts;
+﻿using System.Diagnostics;
+using TetrisGame.Processors.Contracts;
 using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Implementations.Game
@@ -63,7 +64,14 @@ namespace TetrisGame.Processors.Implementations.Game
 
             foreach (var square in piece.GetSquares())
             {
-                _lines[square!.Position.Y].AddSquare(square);
+                var lineIndex = square.Position.Y;
+                if (lineIndex < 0)
+                {
+                    Debug.WriteLine("Game Over! A new piece collided at spawn.");
+                    return;
+                }
+                
+                _lines[square.Position.Y].AddSquare(square);
             }
 
             ClearFullLines();
@@ -98,13 +106,13 @@ namespace TetrisGame.Processors.Implementations.Game
 
             ActivePiece = randomPiece switch
             {
-                //0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
-                //2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
+                2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
                 _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
             };
         }
