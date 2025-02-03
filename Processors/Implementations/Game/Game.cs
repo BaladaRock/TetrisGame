@@ -13,8 +13,7 @@ namespace TetrisGame.Processors.Implementations.Game
             Size = size;
             _squares = new Square[Size, Size];
             SetSquares();
-            ActivePiece = new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth);
-
+            ResetActivePiece();
             _lines = new List<Line>(Size);
             SetLines();
         }
@@ -95,19 +94,18 @@ namespace TetrisGame.Processors.Implementations.Game
         // Generate the next piece randomly
         public void ResetActivePiece()
         {
-            var randomPiece = new Random().Next(1);
+            var randomPiece = new Random().Next(7);
 
             ActivePiece = randomPiece switch
             {
-                0 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                //0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
                 //1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
                 //2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
                 //3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
                 //4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //5 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //6 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                //7 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                _ => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
+                //5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                //6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth)
             };
         }
     }

@@ -30,9 +30,7 @@ namespace TetrisGame.Controllers
             _currentPiece = (Piece?)_game.ActivePiece;
 
             // Center the piece at the top
-            const int middleX = (GameConstants.GridWidth - GameConstants.PieceWidth) / 2;
-            
-            _currentPiece?.SetPosition(new Position(middleX, 0));
+            _currentPiece?.SetPosition(new Position(GameConstants.GridMiddlePoint, 0));
             _currentPiece?.UpdateSquares();
 
             UpdatePieceView();

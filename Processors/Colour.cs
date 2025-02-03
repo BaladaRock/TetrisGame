@@ -6,7 +6,7 @@ public enum Colour
     Green,
     Blue,
     Yellow,
-    Brown,
+    Turquoise,
     Orange,
     Purple,
     Empty

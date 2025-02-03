@@ -3,19 +3,20 @@
     public static class GameConstants
     {
         // Block settings
-        public const int BlockSize = 29; // Size of each square
-        public const int BlockSpacing = 1; // Space between squares
+        public const byte BlockSize = 29; // Size of each square
+        public const byte BlockSpacing = 1; // Space between squares
 
         // Grid settings
-        public const int GridWidth = 10;  // Number of columns
-        public const int GridHeight = 20; // Number of rows
-        public const int GridSize = 30;
+        public const byte GridWidth = 10;  // Number of columns
+        public const byte GridHeight = 20; // Number of rows
+        public const byte GridSize = 30;
 
         // Piece settings
-        public const int PieceWidth = 4;  // Default width of a piece
+        public const byte PieceWidth = 4;  // Default width of a piece
+        public const byte GridMiddlePoint = 4;
 
         // GameView settings
-        public const int WindowWidth = 900;
-        public const int WindowHeight = 600;
+        public const short WindowWidth = 900;
+        public const short WindowHeight = 600;
     }
 }

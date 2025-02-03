@@ -12,7 +12,7 @@ namespace TetrisGame.Helpers
                 Colour.Green => Color.Green,
                 Colour.Blue => Color.Blue,
                 Colour.Yellow => Color.Yellow,
-                Colour.Brown => Color.Brown,
+                Colour.Turquoise => Color.Turquoise,
                 Colour.Orange => Color.Orange,
                 Colour.Purple => Color.Purple,
                 Colour.Empty => Color.Red,
