@@ -54,6 +54,7 @@ namespace TetrisGame.Controllers
             }
 
             _currentPiece.MoveDown();
+            _game.ActivePiece = _currentPiece;
             UpdatePieceView();
         }
 

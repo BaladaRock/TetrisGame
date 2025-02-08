@@ -10,6 +10,7 @@ namespace TetrisGame.Processors.Implementations.Game
         private readonly List<Line> _lines;
         private List<string> _pieceSequence = [];
         private int _currentPieceIndex;
+        private IPiece? _activePiece;
 
 
         public Game(int size)
@@ -123,12 +124,22 @@ namespace TetrisGame.Processors.Implementations.Game
             }
         }
 
-        public IPiece? ActivePiece { get; set; }
+        public IPiece? ActivePiece
+        {
+            get => _activePiece;
+            set
+            {
+                _activePiece = value;
+                _activePiece?.ColourSquares();
+            }
+        }
 
         public bool IsPositionOccupied(Position position)
         {
             return _lines.Any(line => line.GetSquares()
                 .Any(sq => sq.Position.Equals(position)));
+            //var yCoordinate = position.Y;
+            //return yCoordinate >= 0 && _squares[position.X, yCoordinate].IsColoured();
         }
 
         // Generate the next piece randomly
