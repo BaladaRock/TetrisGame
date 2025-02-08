@@ -3,7 +3,7 @@
 
 ## Description
 
-TetrisGame is an implementation of the classic Tetris game, developed in C# using Windows Forms. The project follows the MVC architecture principles, separating the game logic (model), graphical interface (view), and piece control (controller).
+This is an implementation of the classic Tetris game, developed in C# using Windows Forms. The project follows the MVC architecture principles, separating the game logic (model), graphical interface (view), and piece control (controller).
 
 ## Features
 

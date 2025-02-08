@@ -19,32 +19,18 @@ namespace TetrisGame.Processors.Implementations
 
             switch (RotationState)
             {
-                case 0: // Default horizontal spawn (aligned with the grid)
-                    Squares.Add(new Square(new Position(Position.X - 1, Position.Y + 1)));
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + 1)));    
-                    Squares.Add(new Square(new Position(Position.X + 1, Position.Y + 1)));
-                    Squares.Add(new Square(new Position(Position.X + 2, Position.Y + 1)));
-                    break;
-
-                case 1: // Vertical facing right, adjusted so it stays on the same row
-                    Squares.Add(new Square(new Position(Position.X, Position.Y - 1)));
-                    Squares.Add(new Square(new Position(Position.X, Position.Y)));
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + 1)));
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + 2)));
-                    break;
-
-                case 2: // Upside-down horizontal (mirrored)
+                case 0: // Default horizontal spawn
                     Squares.Add(new Square(new Position(Position.X - 1, Position.Y)));
                     Squares.Add(new Square(new Position(Position.X, Position.Y)));    
                     Squares.Add(new Square(new Position(Position.X + 1, Position.Y)));
                     Squares.Add(new Square(new Position(Position.X + 2, Position.Y)));
                     break;
 
-                case 3: // Vertical facing left, adjusted so it stays on the same row
+                case 1: // Vertical, centralized
+                    Squares.Add(new Square(new Position(Position.X, Position.Y - 2)));
                     Squares.Add(new Square(new Position(Position.X, Position.Y - 1)));
                     Squares.Add(new Square(new Position(Position.X, Position.Y)));
                     Squares.Add(new Square(new Position(Position.X, Position.Y + 1)));
-                    Squares.Add(new Square(new Position(Position.X, Position.Y + 2)));
                     break;
             }
         }
@@ -52,8 +38,9 @@ namespace TetrisGame.Processors.Implementations
         public override void Rotate()
         {
             var oldRotation = RotationState;
-            RotationState = (RotationState + 1) % 4; // Rotate clockwise
-            DefineShape();
+            RotationState = (RotationState + 1) % 2; // Rotate clockwise
+            //DefineShape();
+            //UpdateSquares();
 
             if (!ValidateRotation())
             {
@@ -64,8 +51,8 @@ namespace TetrisGame.Processors.Implementations
                     var newX = Position.X + shiftX;
                     var newY = Position.Y + shiftY;
 
-                    if (newX < 0 || newX >= GameConstants.GridWidth ||
-                        newY < 0 || newY >= GameConstants.GridHeight)
+                    if (newX < 0 || newX >= GameConstants.GridWidth 
+                     || newY < 0 || newY >= GameConstants.GridHeight)
                     {
                         continue;
                     }
@@ -76,7 +63,7 @@ namespace TetrisGame.Processors.Implementations
                 }
 
                 RotationState = oldRotation;
-                DefineShape();
+                //DefineShape();
             }
 
             UpdateSquares();

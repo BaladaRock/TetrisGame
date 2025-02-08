@@ -89,7 +89,7 @@ namespace TetrisGame.Controllers
         {
             var currentPositions = _currentPiece?.GetSquarePositions().ToList() ?? [];
 
-            _pieceView.SetSquares(currentPositions, Helpers.ColourMapper.ToColor(_currentPiece!.Colour)); // Only update the moving piece
+            _pieceView.SetSquares(currentPositions, ColourMapper.ToColor(_currentPiece!.Colour)); // Only update the moving piece
         }
 
         public bool HasPieceLanded()

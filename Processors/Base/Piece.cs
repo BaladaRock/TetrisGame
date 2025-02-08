@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using TetrisGame.Processors.Contracts;
 using TetrisGame.Processors.Implementations;
+using TetrisGame.Utils;
 
 namespace TetrisGame.Processors.Base;
 
@@ -22,7 +23,7 @@ public abstract class Piece : IPiece
     }
 
     internal byte PieceSize { get; set; }
-    public int RotationState { get; protected set; } = 0;
+    public int RotationState { get; protected set; }
 
     protected internal Colour Colour;
 
@@ -47,7 +48,7 @@ public abstract class Piece : IPiece
     public virtual void Rotate()
     {
         RotationState = (RotationState + 1) % PieceSize; // Rotate to the next state
-        DefineShape();
+        //DefineShape();
         UpdateSquares();
     }
 
@@ -80,8 +81,8 @@ public abstract class Piece : IPiece
     protected virtual bool ValidateRotation()
     {
         return Squares.TrueForAll(sq =>
-            sq.Position.X is >= 0 and < 10 &&
-            sq.Position.Y is >= 0 and < 20);
+            sq.Position.X is >= 0 and < GameConstants.GridWidth
+            /*sq.Position.Y is >= 0*/ and < GameConstants.GridHeight);
     }
 
     public virtual void UpdateSquares()
