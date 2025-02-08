@@ -39,8 +39,7 @@ namespace TetrisGame.Processors.Implementations
         {
             var oldRotation = RotationState;
             RotationState = (RotationState + 1) % 2; // Rotate clockwise
-            //DefineShape();
-            //UpdateSquares();
+            DefineShape();
 
             if (!ValidateRotation())
             {
@@ -51,19 +50,21 @@ namespace TetrisGame.Processors.Implementations
                     var newX = Position.X + shiftX;
                     var newY = Position.Y + shiftY;
 
-                    if (newX < 0 || newX >= GameConstants.GridWidth 
-                     || newY < 0 || newY >= GameConstants.GridHeight)
+                    if (newX < 0 || newX >= GameConstants.GridWidth || newY >= GameConstants.GridHeight)
                     {
                         continue;
                     }
 
                     Position = new Position(newX, newY);
                     DefineShape();
-                    if (ValidateRotation()) return;
+                    if (ValidateRotation())
+                    {
+                        UpdateSquares();
+                        return;
+                    }
                 }
 
                 RotationState = oldRotation;
-                //DefineShape();
             }
 
             UpdateSquares();

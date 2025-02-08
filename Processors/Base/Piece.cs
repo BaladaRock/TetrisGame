@@ -82,7 +82,7 @@ public abstract class Piece : IPiece
     {
         return Squares.TrueForAll(sq =>
             sq.Position.X is >= 0 and < GameConstants.GridWidth
-            /*sq.Position.Y is >= 0*/ and < GameConstants.GridHeight);
+            && sq.Position.Y < GameConstants.GridHeight);
     }
 
     public virtual void UpdateSquares()
