@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using TetrisGame.Helpers;
 using TetrisGame.Views;
 using TetrisGame.Views.Pieces;
 using Timer = System.Windows.Forms.Timer;
@@ -38,6 +39,15 @@ namespace TetrisGame.Controllers
                 return;
             }
 
+            var keyInfo = new
+            {
+                PressedKey = e.KeyCode,
+                Timestamp = DateTime.Now,
+                ActivePieceType = _game.ActivePiece.GetType().Name
+            };
+
+            Debug.WriteLine($"Key Event: {keyInfo}");
+
             switch (e.KeyCode)
             {
                 case Keys.A:
@@ -67,9 +77,11 @@ namespace TetrisGame.Controllers
                 _game.ResetActivePiece();
                 _pieceController.StorePiece();
                 _pieceController.GenerateNewPiece();
-                if (!_pieceController.CanMove(0, 0)) // If new piece collides immediately
+                if (!_pieceController.CanMove(0, 0)) // If the new piece collides immediately
                 {
                     Debug.WriteLine("Game Over! A new piece collided at spawn.");
+
+                    throw new PieceCollisionException();
                 }
             }
             else

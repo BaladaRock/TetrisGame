@@ -22,7 +22,7 @@ namespace TetrisGame.Processors.Implementations.Game
             SetLines();
 
             // Read the pieces from a .txt file
-            //LoadPieceSequence("pieces.txt");
+            LoadPieceSequence("pieces.txt");
 
             ResetActivePiece();
         }
@@ -145,19 +145,42 @@ namespace TetrisGame.Processors.Implementations.Game
         // Generate the next piece randomly
         public void ResetActivePiece()
         {
-            var randomPiece = new Random().Next(7);
-
-            ActivePiece = randomPiece switch
+            // Using random pieces read from file
+            if (_pieceSequence.Count == 0 || _currentPieceIndex >= _pieceSequence.Count)
             {
-                0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
-                2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
-                _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                LoadPieceSequence("pieces.txt");
+                _currentPieceIndex = 0;
+            }
+
+            var pieceType = _pieceSequence[_currentPieceIndex];
+            _currentPieceIndex++;
+
+            ActivePiece = pieceType switch
+            {
+                "I" => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "O" => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
+                "T" => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "S" => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "Z" => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "L" => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                "J" => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+                _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth), // Default fallback
             };
+
+            // Using a random piece generator
+
+            //var randomPiece = new Random().Next(7);
+            //ActivePiece = randomPiece switch
+            //{
+            //    0 => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    1 => new SquarePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth / 2),
+            //    2 => new TPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    3 => new SPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    4 => new ZPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    5 => new LPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    6 => new JPiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //    _ => new LinePiece(GameConstants.GridWidth, GameConstants.GridHeight, GameConstants.PieceWidth),
+            //};
         }
     }
 }
