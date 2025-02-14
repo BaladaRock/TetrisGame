@@ -97,6 +97,6 @@ Contributions are welcome! To contribute:
 
 ## Author
 
-👨‍💻 Andrei Dăian - [GitHub](https://github.com/BaladaRock/TetrisGame)
+👨‍💻 Andrei Dăian - [GitHub](https://github.com/BaladaRock/)
 
 
